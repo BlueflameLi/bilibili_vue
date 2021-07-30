@@ -1,0 +1,472 @@
+@font-face {
+    font-family: bilifont;
+    src: url(./iconfont.woff2) format("woff2"), url(./iconfont.woff) format("woff"), url(./iconfont.ttf) format("truetype")
+}
+
+.bilifont {
+    font-family: bilifont !important;
+    font-size: 16px;
+    font-style: normal;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale
+}
+
+.bili-sports:before {
+    content: "\E76B"
+}
+
+.bili-sucaishangchuan:before {
+    content: "\E769"
+}
+
+.bili-car:before {
+    content: "\E768"
+}
+
+.bili-animal:before {
+    content: "\E765"
+}
+
+.bili-icon_dingdao_tiezhitougao:before {
+    content: "\E764"
+}
+
+.bili-remen:before {
+    content: "\E763"
+}
+
+.bili-food:before {
+    content: "\E762"
+}
+
+.bili-PC:before {
+    content: "\E636"
+}
+
+.bili-Mobile:before {
+    content: "\E637"
+}
+
+.bili-shanchu:before {
+    content: "\E638"
+}
+
+.bili-iPad:before {
+    content: "\E639"
+}
+
+.bili-TV:before {
+    content: "\E63A"
+}
+
+.bili-knowledge:before {
+    content: "\E761"
+}
+
+.bili-pindao:before {
+    content: "\E760"
+}
+
+.bili-information:before {
+    content: "\E75F"
+}
+
+.bili-zhishi:before {
+    content: "\E75E"
+}
+
+.bili-ic_gerenzhongxin_xiaohuiyuanhuibiao:before {
+    content: "\E75D"
+}
+
+.bili-musicplus:before {
+    content: "\E6C1"
+}
+
+.bili-ic_partition_Comic:before {
+    content: "\E75C"
+}
+
+.bili-icon_dingdao_cheese:before {
+    content: "\E60E"
+}
+
+.bili-icon_shipin_danmushu:before {
+    content: "\E759"
+}
+
+.bili-icon_shipin_shoucangshu:before {
+    content: "\E75A"
+}
+
+.bili-icon_shipin_yingbishu:before {
+    content: "\E75B"
+}
+
+.bili-icon_caozuo_xuanzhong:before {
+    content: "\E756"
+}
+
+.bili-icon_dingdao_yuyanshezhi:before {
+    content: "\E757"
+}
+
+.bili-ic_gerenzhongxin_gerenrenzhenghuibiao:before {
+    content: "\E754"
+}
+
+.bili-ic_gerenzhongxin_qiyerenzhenghuibiao:before {
+    content: "\E755"
+}
+
+.bili-ic_gerenzhongxin_dahuiyuanhuibiao:before {
+    content: "\E753"
+}
+
+.bili-icon_weibo:before {
+    content: "\E71C"
+}
+
+.bili-icon_wechat:before {
+    content: "\E751"
+}
+
+.bili-icon_download:before {
+    content: "\E752"
+}
+
+.bili-tebietuijian:before {
+    content: "\E750"
+}
+
+.bili-match:before {
+    content: "\E600"
+}
+
+.bili-icon_youdaohang_paixu:before {
+    content: "\E74D"
+}
+
+.bili-icon_youdaohang_huidaodingbu:before {
+    content: "\E74E"
+}
+
+.bili-icon_youdaohang_xiaodianshitianxian:before {
+    content: "\E74F"
+}
+
+.bili-yingbi:before {
+    content: "\E74C"
+}
+
+.bili-teleplay:before {
+    content: "\E6D4"
+}
+
+.bili-documentary:before {
+    content: "\E6CC"
+}
+
+.bili-movie:before {
+    content: "\E67F"
+}
+
+.bili-tuiguang:before {
+    content: "\E61C"
+}
+
+.bili-icon_dingdao_dianpu:before {
+    content: "\E74B"
+}
+
+.bili-music:before {
+    content: "\E601"
+}
+
+.bili-game:before {
+    content: "\E603"
+}
+
+.bili-dance:before {
+    content: "\E605"
+}
+
+.bili-live:before {
+    content: "\E606"
+}
+
+.bili-ent:before {
+    content: "\E607"
+}
+
+.bili-life:before {
+    content: "\E608"
+}
+
+.bili-kichiku:before {
+    content: "\E609"
+}
+
+.bili-guochuang:before {
+    content: "\E60A"
+}
+
+.bili-fashion:before {
+    content: "\E60B"
+}
+
+.bili-ad:before {
+    content: "\E60C"
+}
+
+.bili-anime:before {
+    content: "\E60D"
+}
+
+.bili-guochandonghuatuijian:before {
+    content: "\E612"
+}
+
+.bili-tech:before {
+    content: "\E6AD"
+}
+
+.bili-general_pullup_s:before {
+    content: "\E6EC"
+}
+
+.bili-Navbar_mobile:before {
+    content: "\E724"
+}
+
+.bili-Navbar_logo:before {
+    content: "\E725"
+}
+
+.bili-bilibili-tv:before {
+    content: "\E668"
+}
+
+.bili-icon_caozuo_xiangyou-copy:before {
+    content: "\E758"
+}
+
+.bili-general_upload:before {
+    content: "\E634"
+}
+
+.bili-general_search:before {
+    content: "\E635"
+}
+
+.bili-activit:before {
+    content: "\E63B"
+}
+
+.bili-blackroom:before {
+    content: "\E63F"
+}
+
+.bili-read:before {
+    content: "\E640"
+}
+
+.bili-ic_partition_broadca:before {
+    content: "\E641"
+}
+
+.bili-cinephile:before {
+    content: "\E642"
+}
+
+.bili-cinema:before {
+    content: "\E643"
+}
+
+.bili-topic:before {
+    content: "\E644"
+}
+
+.bili-douga:before {
+    content: "\E645"
+}
+
+.bili-digital:before {
+    content: "\E64E"
+}
+
+.bili-yinpin:before {
+    content: "\E656"
+}
+
+.bili-icon_dingdao_dingdanzhongxin:before {
+    content: "\E71E"
+}
+
+.bili-icon_dingdao_qianbao:before {
+    content: "\E71F"
+}
+
+.bili-icon_dingdao_zhibozhongxin:before {
+    content: "\E720"
+}
+
+.bili-icon_dingdao_dengchu:before {
+    content: "\E721"
+}
+
+.bili-icon_dingdao_gerenzhongxin:before {
+    content: "\E722"
+}
+
+.bili-icon_dingdao_tougaoguanli:before {
+    content: "\E723"
+}
+
+.bili-icon_dingdao_shipintougao:before {
+    content: "\E726"
+}
+
+.bili-icon_dingdao_wenzhangtougao:before {
+    content: "\E727"
+}
+
+.bili-icon_dingdao_chuangzuozhongxin:before {
+    content: "\E728"
+}
+
+.bili-icon_dingdao_yinpintougao:before {
+    content: "\E729"
+}
+
+.bili-icon_dingdao_tougaoguanli1:before {
+    content: "\E72A"
+}
+
+.bili-icon_dingdao_zhuzhan:before {
+    content: "\E72B"
+}
+
+.bili-icon_dingdao_sousuo:before {
+    content: "\E72C"
+}
+
+.bili-icon_dingdao_xiazaiapp:before {
+    content: "\E72D"
+}
+
+.bili-icon_dingdao_dahuiyuan:before {
+    content: "\E72E"
+}
+
+.bili-icon_dingdao_lishijilu:before {
+    content: "\E72F"
+}
+
+.bili-icon_dingdao_shoucangjia:before {
+    content: "\E730"
+}
+
+.bili-icon_dingdao_xiaoxi:before {
+    content: "\E731"
+}
+
+.bili-icon_dingdao_dongtai:before {
+    content: "\E732"
+}
+
+.bili-icon_dingdao_bangdingshouji:before {
+    content: "\E733"
+}
+
+.bili-icon_dingdao_yingbi:before {
+    content: "\E734"
+}
+
+.bili-icon_dingdao_youxiang:before {
+    content: "\E735"
+}
+
+.bili-icon_dingdao_Bbi:before {
+    content: "\E736"
+}
+
+.bili-icon_dingdao_bofang:before {
+    content: "\E737"
+}
+
+.bili-icon_fenqudaohang_shouye:before {
+    content: "\E738"
+}
+
+.bili-icon_fenqudaohang_paihangbang:before {
+    content: "\E739"
+}
+
+.bili-icon_banner_xuanzhong:before {
+    content: "\E73A"
+}
+
+.bili-icon_caozuo_qianwang:before {
+    content: "\E73B"
+}
+
+.bili-icon_caozuo_huanyihuan:before {
+    content: "\E73C"
+}
+
+.bili-icon_xinxi_pinglunshu:before {
+    content: "\E73D"
+}
+
+.bili-icon_shipin_bofangshu:before {
+    content: "\E73E"
+}
+
+.bili-icon_xinxi_renqi:before {
+    content: "\E73F"
+}
+
+.bili-icon_shipin_dianzanshu:before {
+    content: "\E740"
+}
+
+.bili-icon_xinxi_UPzhu:before {
+    content: "\E741"
+}
+
+.bili-icon_xinxi_yuedushu:before {
+    content: "\E742"
+}
+
+.bili-icon_xinxi_huo:before {
+    content: "\E743"
+}
+
+.bili-icon_caozuo_xiangyou:before {
+    content: "\E744"
+}
+
+.bili-icon_caozuo_xiangzuo:before {
+    content: "\E745"
+}
+
+.bili-icon_foot_weixin:before {
+    content: "\E746"
+}
+
+.bili-icon_foot_kehuduanxiazai:before {
+    content: "\E747"
+}
+
+.bili-icon_foot_weibo:before {
+    content: "\E748"
+}
+
+.bili-icon_caozuo_yitianjia:before {
+    content: "\E749"
+}
+
+.bili-icon_sousuo_yichu:before {
+    content: "\E74A"
+}
