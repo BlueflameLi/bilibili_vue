@@ -1,5 +1,5 @@
 <template>
-    <div id="the-header">
+    <div class="international-header">
         <div class="mini-header">
             <div class="mini-header-content">
                 <div class="nav-link">
@@ -118,7 +118,7 @@
                         :src="bannerAnimateData.src"
                         :width="bannerAnimateData.width"
                         :height="bannerAnimateData.height"
-                        :style="`object-fit: cover; transform: scale(1) translate(${bannerAnimateData.translateX}px, 0px) rotate(0deg); transition: ${bannerAnimateData.transition};`"
+                        :style="`object-fit: cover; transform: translateX(${bannerAnimateData.translateX}px); transition: ${bannerAnimateData.transition};`"
                         data-height="180"
                         data-width="2104"
                     ></video>
@@ -160,7 +160,9 @@
                     <span v-for="(item,index) in primaryChannelMenu" :key="index">
                         <div class="item">
                             <a :href="item.url" class="name">
-                                <span>{{ item.name }}<em>{{ item.newCount }}</em></span>
+                                <span>
+                                    {{ item.name }}<em>{{ regionCount.length ? regionCount[index] : '-' }}</em>
+                                </span>
                             </a>
                         </div>
                     </span>
@@ -192,7 +194,7 @@
 </template>
 <script>
 import { throttle } from 'lodash'
-import axios from 'axios'
+import { getSuggest, getSearchDefault, getOnline } from '@/api'
 export default {
     name: "TheHeader",
     components: {
@@ -336,76 +338,61 @@ export default {
             ],
             primaryChannelMenu: [{
                 name: '动画',
-                newCount: '999+',
                 url: '/'
             },
             {
                 name: '番剧',
-                newCount: '137',
                 url: '/'
             },
             {
                 name: '音乐',
-                newCount: '999+',
                 url: '/'
             },
             {
                 name: '国创',
-                newCount: '294',
                 url: '/'
             },
             {
                 name: '舞蹈',
-                newCount: '834',
                 url: '/'
             },
             {
                 name: '游戏',
-                newCount: '999+',
                 url: '/'
             }, {
                 name: '知识',
-                newCount: '999+',
                 url: '/'
             },
             {
                 name: '科技',
-                newCount: '999+',
                 url: '/'
             },
             {
                 name: '生活',
-                newCount: '999+',
                 url: '/'
             },
             {
                 name: '鬼畜',
-                newCount: '94',
                 url: '/'
             },
             {
                 name: '时尚',
-                newCount: '999+',
                 url: '/'
             },
             {
                 name: '资讯',
-                newCount: '440',
                 url: '/'
             },
             {
                 name: '娱乐',
-                newCount: '999+',
                 url: '/'
             },
             {
                 name: '影视',
-                newCount: '999+',
                 url: '/'
             },
             {
                 name: '放映厅',
-                newCount: '77',
                 url: '/'
             }],
             primaryFriendshipLink: [
@@ -439,7 +426,8 @@ export default {
                     url: '/',
                     svg: '#bili-musicplus'
                 }
-            ]
+            ],
+            regionCount: []
         }
     },
     computed: {
@@ -470,27 +458,26 @@ export default {
         }, 20),
         bannerMouseLeave() {
             this.bannerAnimateData.translateX = 44
-            this.bannerAnimateData.transition = 'transform 0.3s'
+            // this.bannerAnimateData.transition = 'transform 0.3s'
         },
-        getSuggest() {
-            this.navSearchData.itemSelectIndex = -1
-            axios.get('/search/suggest', {
-                params: {
-                    term: this.navSearchData.keyword,
-                    highlight: ''
-                }
-            }).then(
+        setSearchDefault() {
+            getSearchDefault().then(
                 response => {
-                    this.navSearchData.suggest = Object.values(response.data)
+                    this.navSearchData.default.name = response.data.show_name
+                    this.navSearchData.default.url = response.data.url
                 })
-                .catch(error => {
-                    console.log(error)
+        },
+        setSuggest() {
+            this.navSearchData.itemSelectIndex = -1
+            getSuggest(this.navSearchData.keyword).then(
+                response => {
+                    this.navSearchData.suggest = Object.values(response)
                 })
         },
         changeSearchKeyword(event) {
             this.navSearchData.keyword = event.target.value
 
-            this.getSuggest()
+            this.setSuggest()
         },
         addSearchHistory(keyword) {
             if (this.navSearchData.searchHistory.findIndex(function (obj) {
@@ -509,7 +496,7 @@ export default {
                 window.open('https://search.bilibili.com/all?keyword=' + keyword, "_blank")
                 this.addSearchHistory(keyword)
                 if (this.navSearchData.itemSelectIndex != -1)
-                    this.getSuggest()
+                    this.setSuggest()
             }
             else
                 window.open(this.navSearchData.default.url, "_blank")
@@ -540,6 +527,35 @@ export default {
             }
             else
                 return
+        },
+        setOnline() {
+            getOnline().then(
+                reponse => {
+                    var { region_count } = reponse.data
+                    this.regionCount = []
+                    this.regionCount.push(this.fromatOnline(region_count['1']))
+                    this.regionCount.push(this.fromatOnline(region_count['13']))
+                    this.regionCount.push(this.fromatOnline(region_count['3']))
+                    this.regionCount.push(this.fromatOnline(region_count['167']))
+                    this.regionCount.push(this.fromatOnline(region_count['129']))
+                    this.regionCount.push(this.fromatOnline(region_count['4']))
+                    this.regionCount.push(this.fromatOnline(region_count['36']))
+                    this.regionCount.push(this.fromatOnline(region_count['188']))
+                    this.regionCount.push(this.fromatOnline(region_count['160']))
+                    this.regionCount.push(this.fromatOnline(region_count['119']))
+                    this.regionCount.push(this.fromatOnline(region_count['155']))
+                    this.regionCount.push(this.fromatOnline(region_count['202']))
+                    this.regionCount.push(this.fromatOnline(region_count['5']))
+                    this.regionCount.push(this.fromatOnline(region_count['181']))
+                    this.regionCount.push(this.fromatOnline(region_count['11'] + region_count['23'] + region_count['177']))
+                }
+            )
+        },
+        fromatOnline(val) {
+            if (val > 999)
+                return '999+'
+            else
+                return val
         }
     },
     watch: {
@@ -558,21 +574,44 @@ export default {
             that.bannerSelfAd();
         }, 10));
 
-        axios.get('/api/x/web-interface/search/default')
-            .then(
-                response => {
-                    this.navSearchData.default.name = response.data.data.show_name
-                    this.navSearchData.default.url = response.data.data.url
-                })
-            .catch(error => {
-                console.log(error)
-            })
+        this.setSearchDefault()
+        this.setOnline()
     },
 
 }
 </script>
 <style>
-#the-header {
+.footer-wrap,
+.wrap {
+    margin: 0 auto;
+    width: 1630px;
+}
+
+@media screen and (max-width: 1870px) {
+    .footer-wrap,
+    .wrap {
+        width: 1414px;
+    }
+}
+
+@media screen and (max-width: 1654px) {
+    .footer-wrap,
+    .wrap {
+        width: 1198px;
+    }
+}
+
+@media screen and (max-width: 1438px) {
+    .footer-wrap,
+    .wrap {
+        width: 999px;
+    }
+}
+
+.international-header {
+    min-width: 999px;
+    min-height: 56px;
+    z-index: 1000;
     position: relative;
 }
 
@@ -929,6 +968,7 @@ export default {
     background-repeat: no-repeat;
     background-position: center 0;
     background-size: cover;
+    /* 滚动条偏移修正 */
     margin-right: -12px;
 }
 
@@ -979,7 +1019,6 @@ export default {
 .mini-header-banner .logo .logo-img {
     height: 100%;
 }
-
 
 /* 主菜单 */
 .primary-menu {
@@ -1115,7 +1154,7 @@ export default {
 }
 
 .channel-menu .item .name:hover {
-    color: #00a1d6
+    color: #00a1d6;
 }
 
 .channel-menu .item .name em {

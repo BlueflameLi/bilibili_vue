@@ -1,36 +1,52 @@
 module.exports = {
     devServer: {
         proxy: {
-            '/api': {
+            '/api/bili': {
                 target: 'https://api.bilibili.com',
                 ws: true,
                 changeOrigin: true,
                 pathRewrite: {
-                    '^/api': ''
+                    '^/api/bili': ''
                 }
             },
-            '/search': {
+            '/api/search': {
                 target: 'https://s.search.bilibili.com/main',
                 ws: true,
                 changeOrigin: true,
                 pathRewrite: {
-                    '^/search': ''
+                    '^/api/search': ''
                 }
             },
-            '/passport': {
+            '/api/passport': {
                 target: 'https://passport.bilibili.com',
                 ws: true,
                 changeOrigin: true,
                 pathRewrite: {
-                    '^/passport': ''
+                    '^/api/passport': ''
                 }
             },
-            '/bili': {
-                target: 'https://www.bilibili.com',
+            '/api/live': {
+                target: 'https://api.live.bilibili.com',
                 ws: true,
                 changeOrigin: true,
                 pathRewrite: {
-                    '^/bili': ''
+                    '^/api/live': ''
+                }
+            },
+            '/api/manga': {
+                target: 'http://localhost:5000',
+                ws: true,
+                changeOrigin: true,
+                pathRewrite: {
+                    '^/api/manga': ''
+                }
+            },
+            '/api/sclrcmd': {
+                target: 'http://localhost:5001',
+                ws: true,
+                changeOrigin: true,
+                pathRewrite: {
+                    '^/api/sclrcmd': ''
                 }
             },
         }

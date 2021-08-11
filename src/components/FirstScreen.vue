@@ -10,9 +10,9 @@
                     >
                         <div v-show="index === swipeData.currentIndex" class="item">
                             <a :href="item.url" target="_blank">
-                                <img :src="item.pic" :alt="item.name" />
+                                <img v-if="item.pic" v-lazy="item.pic" :alt="item.name" />
                                 <p class="title">
-                                    <i v-if="item.is_ad_loc" class="bypb-icon"></i>
+                                    <i v-if="item.is_ad" class="bypb-icon"></i>
                                     {{ item.name }}
                                 </p>
                             </a>
@@ -41,21 +41,25 @@
                     >
                         <div class="info-box">
                             <a :href="item.uri" target="_blank">
-                                <img :src="item.pic" />
+                                <img v-if="item.pic" v-lazy="item.pic" />
                                 <div class="info">
-                                    <p title="item.title" class="title">{{ item.title }}</p>
+                                    <p :title="item.title" class="title">{{ item.title }}</p>
                                     <p class="up">
                                         <i class="bilifont bili-icon_xinxi_UPzhu"></i>
-                                        {{ item.owner.name }}
+                                        {{ item.owner ? item.owner.name : '' }}
                                     </p>
-                                    <p class="play">{{ Math.round(item.stat.view / 1000) / 10 }}万播放量</p>
+                                    <p
+                                        class="play"
+                                    >{{ item.stat ? $format.formatCount(item.stat.view) : '' }}播放量</p>
                                 </div>
                             </a>
                         </div>
-                        <div class="watch-later-video watchlater black"></div>
+                        <div class="watchlater">
+                            <span class="wl-tips" style="left: -21px;">稍后再看</span>
+                        </div>
                     </div>
                 </div>
-                <div class="change-btn" @click="getRcmd">
+                <div class="change-btn" @click="setRcmd">
                     <i class="bilifont bili-icon_caozuo_huanyihuan"></i>
                     <span>换一换</span>
                 </div>
@@ -68,49 +72,44 @@
                         <svg aria-hidden="true" class="svg-icon">
                             <use xlink:href="#bili-tuiguang" />
                         </svg>
-                        <a target="_blank" class="name">推广</a>
+                        <a target="_blank" class="name no-link">推广</a>
                         <div class="text-info">
                             <a
-                                href="https://www.bilibili.com/blackboard/knowledge2021-5.html"
+                                v-for="(item,index) in locsData['1550']"
+                                :key="index"
+                                :href="item.url"
                                 target="_blank"
                                 class="text-info-link"
                             >
                                 <i class="bilifont bili-icon_xinxi_huo"></i>
-                                知识夏日奖励争夺战！
-                            </a>
-                            <a
-                                href="https://www.bilibili.com/blackboard/activity-MAD2021-1ST.html"
-                                target="_blank"
-                                class="text-info-link"
-                            >
-                                <i class="bilifont bili-icon_xinxi_huo"></i>
-                                MAD大赛征稿倒计时
+                                {{ item.name }}
                             </a>
                         </div>
                     </div>
                 </header>
                 <div class="ext-box">
                     <div
-                        v-for="(item,index) in extensionData"
+                        v-for="(item,index) in locsData['34']"
                         :key="index"
                         class="video-card-common ex-card-common"
                     >
                         <div class="card-pic">
                             <a :href="item.url" target="_blank">
-                                <img :src="item.pic+'@412w_232h_1c'"/>
+                                <img v-lazy="item.pic + '@412w_232h_1c'" />
                                 <div class="count">
                                     <div class="left"></div>
                                     <div class="right">
-                                        <span>{{ formatSeconds(item.archive.duration) }}</span>
+                                        <span>{{ item.archive ? $format.formatSeconds(item.archive.duration) : '' }}</span>
                                     </div>
                                 </div>
                                 <p class="ex-title" :title="item.name">
-                                    <span v-if="item.is_ad_loc" class="gg-icon">广告</span>
+                                    <span v-if="item.is_ad" class="gg-icon">广告</span>
                                     <span>{{ item.name }}</span>
                                 </p>
                             </a>
                         </div>
                         <a
+                            v-if="item.archive && item.archive.owner"
                             :href="`//space.bilibili.com/${item.archive.owner.mid}/`"
                             target="_blank"
                             class="ex-up"
@@ -118,46 +117,120 @@
                             <i class="bilifont bili-icon_xinxi_UPzhu"></i>
                             {{ item.archive.owner.name }}
                         </a>
+                        <a
+                            v-else-if="item.adver_name"
+                            :href="item.url"
+                            target="_blank"
+                            class="adver_name"
+                        >{{ item.adver_name }}</a>
                     </div>
                 </div>
             </div>
-            <div class="bypb-window"></div>
+            <div class="bypb-window">
+                <div class="online">
+                    <a href="//www.bilibili.com/video/online.html" target="_blank">观看列表</a>
+                </div>
+                <a
+                    v-if="locsData['29']"
+                    target="_blank"
+                    class="operate-card"
+                    :href="locsData['29'][0].url"
+                >
+                    <img v-lazy="locsData['29'][0].pic" :alt="locsData['29'][0].name" />
+                </a>
+            </div>
         </div>
-        <div class="qrcode-img" ref="qrcode"></div>
-        <p>status:{{ qrcode.status }}</p>
-        <p>message:{{ qrcode.message }}</p>
-        <a href="https://www.bilibili.com/">111</a>
+        <div v-if="true" class="space-between">
+            <div class="extension">
+                <header class="storey-title">
+                    <div class="l-con">
+                        <img
+                            src="//i0.hdslb.com/bfs/feed-admin/2d46df9bbf585fc72155bd4904fd30545669f088.png"
+                            class="sprite"
+                        />
+                        <a
+                            href="https://www.bilibili.com/v/game/match/"
+                            target="_blank"
+                            class="name"
+                        >电竞赛事</a>
+                    </div>
+                </header>
+                <div class="ext-box">
+                    <div
+                        v-for="(item,index) in locsData['3449']"
+                        :key="index"
+                        class="video-card-common"
+                    >
+                        <div :class="{ 'card-pic': item.archive, 'match-card-pic': item.room }">
+                            <a :href="item.url" target="_blank">
+                                <img v-lazy="item.pic + '@206w_116h_1c_100q.jpg'" />
+                                <div class="count">
+                                    <div class="left">
+                                        <span v-if="item.archive">
+                                            <i class="bilifont bili-icon_shipin_bofangshu"></i>
+                                            {{ $format.formatCount(item.archive.stat.view) }}
+                                        </span>
+                                        <span v-if="item.archive">
+                                            <i class="bilifont bili-icon_shipin_dianzanshu"></i>
+                                            {{ $format.formatCount(item.archive.stat.like) }}
+                                        </span>
+                                    </div>
+                                    <div class="right">
+                                        <span
+                                            v-if="item.archive"
+                                        >{{ $format.formatSeconds(item.archive.duration) }}</span>
+                                        <i
+                                            v-else-if="item.room"
+                                            class="bilifont bili-icon_xinxi_renqi"
+                                        ></i>
+                                        {{ item.room ? $format.formatCount(item.room.show.popularity_count) : '' }}
+                                    </div>
+                                </div>
+                                <p
+                                    :class="{ 'ex-title': item.archive, 'live-title': item.room }"
+                                    :title="item.name"
+                                >
+                                    <span v-if="item.room" class="live">
+                                        <i></i>直播中
+                                    </span>
+                                    <span>{{ item.name }}</span>
+                                </p>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="bypb-window ggpos">
+                <a
+                    href="https://www.bilibili.com/blackboard/activity-9XQ2e2aUKj.html"
+                    target="_blank"
+                >
+                    <img
+                        src="//i0.hdslb.com/bfs/feed-admin/c22765645393e853d4139cf23eb79ef5f689690b.jpg@320w_184h_1c_100q.jpg"
+                        alt="诚聘！投稿瓜分10万现金奖励！"
+                        class="pic"
+                    />
+                </a>
+            </div>
+        </div>
     </div>
 </template>
 <script>
-import axios from 'axios'
-import QRCode from 'qrcodejs2'
-import qs from 'qs'
-import Cookies from 'vue-cookies'
+import { getRcmd, getLoc } from '@/api'
+import { mapState } from 'vuex'
 
 
 export default {
     name: 'FirstScreen',
     data() {
         return {
-            imagesData: [],
+            imagesData: [{}, {}, {}, {}, {}],
             swipeData: {
                 currentIndex: 0,
                 timer: null,
                 dir: 'next'
             },
-            extensionData: [],
-            rcmdData: [],
-            qrcode: {
-                qrcode: null,
-                url: '',
-                oauthKey: '',
-                status: false,
-                message: '',
-                timer: null
-            },
-            userInfo: {},
-
+            rcmdData: [{}, {}, {}, {}, {}, {}, {}, {}, {}, {}],
         }
     },
     computed: {
@@ -166,35 +239,10 @@ export default {
         },
         nextIndex() {
             return (this.swipeData.currentIndex + 1) % 5
-        }
+        },
+        ...mapState(['locsData'])
     },
     methods: {
-        swipeToNext(index) {
-            this.swipeData.dir = 'next'
-            this.swipeData.currentIndex = index
-        },
-        swipeToPre(index) {
-            this.swipeData.dir = 'pre'
-            this.swipeData.style[this.preIndex].transition = 'none'
-            this.swipeData.style[index].transition = 'none'
-
-            this.$nextTick(() => {
-                this.swipeData.style[this.preIndex].transform = `translateX(-${this.swipeWH.width})`
-                this.swipeData.style[index].transform = `translateX(-${this.swipeWH.width})`
-
-                this.$nextTick(() => {
-                    this.swipeData.style[this.swipeData.currentIndex].transition = '0.55s'
-                    this.swipeData.style[index].transition = '0.25s'
-
-                    this.swipeData.style[index].zIndex = this.swipeData.style[this.swipeData.currentIndex].zIndex + 1
-
-                    this.swipeData.style[this.swipeData.currentIndex].transform = `translateX(${this.swipeWH.width})`
-                    this.swipeData.style[index].transform = 'translateX(0px)'
-
-                    this.swipeData.currentIndex = index
-                })
-            })
-        },
         swipeTo(index) {
             clearInterval(this.swipeData.timer)
             if (index > this.swipeData.currentIndex) {
@@ -210,137 +258,28 @@ export default {
                 this.swipeTo(this.nextIndex)
             }, 5000)
         },
-        getRcmd() {
-            axios.get('/api/x/web-interface/index/top/rcmd?fresh_type=3')
-                .then(
-                    response => {
-                        this.rcmdData = response.data.data.item
-                        // console.log(response.data.data.item);
-                    })
-                .catch(error => {
-                    console.log(error);
-                })
-        },
-        getQrcode() {
-            axios.get('/passport/qrcode/getLoginUrl')
-                .then(
-                    response => {
-                        this.qrcode.url = response.data.data.url
-                        this.qrcode.oauthKey = response.data.data.oauthKey
-                        this.qrcode.qrcode = new QRCode(this.$refs.qrcode, {
-                            text: response.data.data.url,
-                            render: 'canvas',
-                            width: 140,
-                            height: 140,
-                            colorDark: '#000000',
-                            colorLight: '#ffffff'
-                        })
-                        this.qrcode.timer = setInterval(() => {
-                            this.checkQrcode()
-                        }, 10000);
-                        setTimeout(() => {
-                            if (!this.qrcode.state)
-                                clearInterval(this.qrcode.timer)
-                        }, 180000);
-                    }
-                ).catch(
-                    error => {
-                        console.log(error);
-                    }
-                )
-        },
-        checkQrcode() {
-            let data = { oauthKey: this.qrcode.oauthKey }
-            // console.log(new Date(new Date().getTime() + 15551000 * 1000));
-            axios.post('/passport/qrcode/getLoginInfo', qs.stringify(data), {
-                headers: {
-                    'content-type': 'application/x-www-form-urlencoded'
-                }
-            }).then(
+        setRcmd() {
+            getRcmd().then(
                 response => {
-                    this.qrcode.status = response.data.status
-                    this.qrcode.message = response.data.message
-                    if (this.qrcode.status) {
-                        clearInterval(this.qrcode.timer)
-                        let query = qs.parse(response.data.data.url.substring(42))
-                        console.log(query);
-                        let Expires = new Date(new Date().getTime() + parseInt(query.Expires) * 1000)
-                        console.log(Expires);
-                        Cookies.set('DedeUserID', query.DedeUserID, Expires)
-                        Cookies.set('DedeUserID__ckMd5', query.DedeUserID__ckMd5, Expires)
-                        Cookies.set('SESSDATA', query.SESSDATA, Expires)
-                        Cookies.set('bili_jct', query.bili_jct, Expires)
-                    }
-                })
-                .catch(
-                    error => {
-                        console.log(error);
-                    }
-                )
-        },
-        getUserinfo() {
-            axios.get('/api/nav')
-                .then(
-                    response => {
-                        console.log(response.data.data)
-                        this.userInfo = response.data.data
-                    })
-                .catch(error => {
-                    console.log(error)
-                })
-                .finally(() => {
-                    console.log(this.userInfo.isLogin);
-                    if (!this.userInfo.isLogin)
-                        this.getQrcode()
-                    this.getRcmd()
-                })
-        },
-        getExtension() {
-            axios.get('/api/x/web-show/res/loc?pf=0&id=34')
-                .then(
-                    response => {
-                        console.log(response.data.data)
-                        this.extensionData = response.data.data
-                    })
-                .catch(error => {
-                    console.log(error)
+                    this.rcmdData = response.data.item
                 })
         },
         getSwipe() {
-            axios.get('/api/x/web-show/res/loc?pf=0&id=3197')
-                .then(
-                    response => {
-                        this.imagesData = response.data.data
+            getLoc({ pf: '0', id: '3197' }).then(
+                response => {
+                    this.imagesData = response.data
 
-                        this.swipeData.timer = setInterval(() => {
-                            this.swipeTo(this.nextIndex)
-                        }, 5000)
-                    })
-                .catch(error => {
-                    console.log(error)
+                    this.swipeData.timer = setInterval(() => {
+                        this.swipeTo(this.nextIndex)
+                    }, 5000)
                 })
         },
-        formatSeconds(value) {
-            let secondTime = parseInt(value % 60); // 秒
-            let minuteTime = parseInt(value / 60); // 分
-            let hourTime = 0
-            if (minuteTime >= 60) {
-                hourTime = parseInt(minuteTime / 60);
-                minuteTime = parseInt(minuteTime % 60);
-            }
-            var result = "" + (parseInt(secondTime) < 10 ? "0" + parseInt(secondTime) : parseInt(secondTime));
-            result = "" + (parseInt(minuteTime) < 10 ? "0" + parseInt(minuteTime) : parseInt(minuteTime)) + ":" + result;
-            if (hourTime > 0) {
-                result = "" + (parseInt(hourTime) < 10 ? "0" + parseInt(hourTime) : parseInt(hourTime)) + ":" + result;
-            }
-            return result;
-        },
+
 
     },
     mounted() {
         this.getSwipe()
-        this.getExtension()
-        this.getUserinfo()
+        this.setRcmd()
     },
 }
 </script>
@@ -456,7 +395,7 @@ export default {
     opacity: 1;
 }
 
-/* 轮播动画 */
+/* 轮播动画
 .pre-leave-to,
 .next-enter {
     transform: translateX(100%);
@@ -479,7 +418,7 @@ export default {
 .next-leave,
 .next-enter-to {
     transform: translateX(0%);
-}
+} */
 
 /* 轮播图下方指示器 */
 
@@ -705,15 +644,16 @@ export default {
     margin-right: 5px;
 }
 
-.video-card-reco .watch-later-video {
+.video-card-reco .watchlater {
     transition: opacity 0.2s;
     opacity: 0;
 }
 
-.video-card-reco:hover .watch-later-video {
+.video-card-reco:hover .watchlater {
     transition-delay: 0.2s;
     opacity: 1;
 }
+
 
 .video-card-reco:hover .info-box:before {
     opacity: 1;
@@ -754,7 +694,7 @@ export default {
     }
 }
 
-.storey-title {
+/* .storey-title {
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -775,7 +715,7 @@ export default {
     vertical-align: bottom;
     font-size: 20px;
     line-height: 36px;
-}
+} */
 
 .storey-title .text-info {
     color: #505050;
@@ -786,6 +726,11 @@ export default {
 .storey-title .text-info a {
     color: #505050;
 }
+
+/* .storey-title .no-link {
+    color: #212121;
+    cursor: default;
+} */
 
 .extension .text-info-link {
     margin-right: 10px;
@@ -952,8 +897,178 @@ export default {
     color: #00a1d6;
 }
 
+.video-card-common .adver_name {
+    display: flex;
+    align-items: center;
+    font-size: 12px;
+    color: #999;
+    line-height: 16px;
+    margin-top: 60px;
+}
+
 .video-card-common .bilifont {
     margin-right: 4px;
     vertical-align: middle;
+}
+
+/* 推广右侧 */
+.bypb-window {
+    width: 320px;
+}
+
+@media screen and (max-width: 1438px) {
+    .footer-wrap .bypb-window,
+    .wrap .bypb-window {
+        width: 265px;
+    }
+}
+
+.bypb-window .online {
+    display: -ms-flexbox;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-top: 3px;
+    margin-bottom: 19px;
+    height: 30px;
+    border: 1px solid #e7e7e7;
+    border-radius: 2px;
+    background: #f4f4f4;
+    color: #505050;
+    line-height: 30px;
+}
+
+.bypb-window .online a {
+    flex: 1;
+    text-align: center;
+    font-size: 12px;
+}
+
+.operate-card {
+    position: relative;
+    display: block;
+}
+
+.operate-card img {
+    width: 100%;
+    border-radius: 2px;
+}
+
+/* 电竞赛事 */
+.storey-title .l-con .sprite {
+    width: 36px;
+    height: 36px;
+    margin-right: 6px;
+}
+
+.video-card-common .card-pic a .count .left span:first-child {
+    margin-right: 10px;
+}
+
+.video-card-common .match-card-pic {
+    position: relative;
+    width: 100%;
+    height: 116px;
+}
+
+.video-card-common .match-card-pic a {
+    display: block;
+    position: relative;
+    width: 100%;
+    height: 100%;
+    background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEsAAABHCAMAAAB4UkqjAAAAh1BMVEUAAADd3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d0UCIZXAAAALHRSTlMAoJDx4OYL/DcGF+6+JNi4ycSIT2k6LPeWfRzTVPXPszEQrV0hpo12cEZAZFpRNIQAAAJVSURBVFjD7dbZcpswGIbhHwwSi81q8Ib33fnu//oatRIpmliDhQ/aaZ+TKInnjVgkhb4RJMhP9Fzo8PiD+vEA+JPnqS0+1dRHBJhibAzh2HNeekxP9Z8XBSMZM6SmRBYx65QeM6XsY3rKPqanLGMWqeDmOh0b/Io9+YHi3gKtdExgLznSlyjFMGnUphIMlcgY22C4DSPBxTu4IrXDe+yI6IDWbPSqGVoHoohDyip6XZVB4hFN1TgPyUaYQ5rSWQ0nZGcC6UyJukKypa4yIXX3HLLlqCdHX++HLRfS/9bbWvvHLSLNR3N6tRXdFwdxejekiYF4fDnWYa/WqSm2PqRCSy0hrbP5RxAaW8141N17tVbZ+S1fFYbWFF2+1lqg62BoBdAsqWOLroWhxTh+M8vmWuuaxp1WaWjRSn43yl35sHTLUjxiaWlqnYE4LZoJme3v13MibqepFZRL6otV5V+/Hv+xVvi+FsvZG1qh/LQ7uFXnF/HlwcEfYlDktW2r5EARUiXWc1xRWAC8tGwxsdJ9dcRnYrddMdtrjDZyAy3kXrSJ7O89u8zEZAIKxBRnFzbonWD3ZkfCrrmzP+6979nicjAnW3NZ4OS1R6GtVBa8drTek539up3NAgMvcv51WNZQitCiFBZQaqIMSrx1XrWNoWTy/w1r+hk+xjuMSVjGGC6WZ3S1xlDriqTKxzB+Ra3I4bDHne62drqmied57QR9z0D94dHnOEmvJ/pWAMm4ovL2TTcJ5cRyMlHrbkdG5c/5r82fYqt+K/iR89m2JrP9PEZyI80PsPxVT0P3FAEAAAAASUVORK5CYII=);
+    background-repeat: no-repeat;
+    background-position: 50%;
+}
+
+.video-card-common .match-card-pic a:before {
+    content: "";
+    position: absolute;
+    width: 100%;
+    height: 48px;
+    background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAAwCAYAAAGnNCAXAAAABGdBTUEAALGPC/xhBQAAAENJREFUCB1jYGBgYGICEpIgQgqNBRRi4MMmARYDyXKAWLwgggfOAnMJiIH0soJ0sMEJdlQWWBYshpAAK0ZwwSzS1AEAes8Ckyqvlc0AAAAASUVORK5CYII=);
+    background-repeat: repeat-x;
+    bottom: 0;
+    left: 0;
+    border-radius: 2px;
+}
+
+.video-card-common .match-card-pic a img {
+    width: 100%;
+    height: 100%;
+    border-radius: 2px;
+}
+
+.video-card-common .match-card-pic a .count {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    padding: 6px 8px;
+    justify-content: space-between;
+    color: #fff;
+    line-height: 16px;
+}
+
+.video-card-common .match-card-pic a .count,
+.video-card-common .match-card-pic a .count .left,
+.video-card-common .match-card-pic a .count .left span {
+    display: flex;
+    align-items: center;
+}
+
+.video-card-common .match-card-pic a .count .left span {
+    vertical-align: middle;
+}
+
+.video-card-common .match-card-pic a .count .left span:first-child {
+    margin-right: 10px;
+}
+
+.video-card-common .match-card-pic a .count .right {
+    display: flex;
+}
+
+.video-card-common .live-title {
+    display: block;
+    font-size: 14px;
+    line-height: 20px;
+    margin: 10px 0 8px;
+    height: 40px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    font-weight: 500;
+}
+
+.video-card-common .live-title .live {
+    display: inline-block;
+    color: #fff;
+    background: #fb7299;
+    border-radius: 2px;
+    line-height: 16px;
+    width: 56px;
+    text-align: center;
+    margin-right: 5px;
+    font-size: 12px;
+}
+
+.video-card-common .live-title .live i {
+    display: inline-block;
+    width: 10px;
+    height: 10px;
+    margin-right: 3px;
+    background-image: url(//s1.hdslb.com/bfs/static/jinkela/international-home/assets/living.gif);
+    background-size: cover;
+}
+
+.ggpos {
+    padding-top: 52px;
+}
+
+.ggpos .pic {
+    width: 100%;
+    border-radius: 2px;
 }
 </style>

@@ -2,135 +2,6 @@
     <div id="app">
         <SvgIcon></SvgIcon>
         <Home></Home>
-        <br />
-        <br />
-        <br />
-        <br />
-        <br />
-        <br />
-        <br />
-        <br />
-        <br />
-        <br />
-        <br />
-        <br />
-        <br />
-        <br />
-        <br />
-        <br />
-        <br />
-        <br />
-        <br />
-        <br />
-        <br />
-        <br />
-        <br />
-        <br />
-        <br />
-        <br />
-        <br />
-        <br />
-        <br />
-        <br />
-        <br />
-        <br />
-        <br />
-        <br />
-        <br />
-        <br />
-        <br />
-        <br />
-        <br />
-        <br />
-        <br />
-        <br />
-        <br />
-        <br />
-        <br />
-        <br />
-        <br />
-        <br />
-        <br />
-        <br />
-        <br />
-        <br />
-        <br />
-        <br />
-        <br />
-        <br />
-        <br />
-        <br />
-        <br />
-        <br />
-        <br />
-        <br />
-        <br />
-        <br />
-        <br />
-        <br />
-        <br />
-        <br />
-        <br />
-        <br />
-        <br />
-        <br />
-        <br />
-        <br />
-        <br />
-        <br />
-        <br />
-        <br />
-        <br />
-        <br />
-        <br />
-        <br />
-        <br />
-        <br />
-        <br />
-        <br />
-        <br />
-        <br />
-        <br />
-        <br />
-        <br />
-        <br />
-        <br />
-        <br />
-        <br />
-        <br />
-        <br />
-        <br />
-        <br />
-        <br />
-        <br />
-        <br />
-        <br />
-        <br />
-        <br />
-        <br />
-        <br />
-        <br />
-        <br />
-        <br />
-        <br />
-        <br />
-        <br />
-        <br />
-        <br />
-        <br />
-        <br />
-        <br />
-        <br />
-        <br />
-        <br />
-        <br />
-        <br />
-        <br />
-        <br />
-        <br />
-        <br />
-        <br />
-        <br />
     </div>
 </template>
 
@@ -189,6 +60,10 @@ a {
     cursor: pointer;
 }
 
+a:hover {
+    color: #00a1d6;
+}
+
 img {
     vertical-align: middle;
     border-style: none;
@@ -241,6 +116,7 @@ textarea {
     font-family: Hiragino Sans GB, Microsoft YaHei, Arial, sans-serif;
 }
 
+
 /* 滚动条美化 */
 html ::-webkit-scrollbar {
     width: 5px;
@@ -263,30 +139,5 @@ html ::-webkit-scrollbar-thumb:hover {
 }
 
 
-.footer-wrap,
-.wrap {
-    margin: 0 auto;
-    width: 1630px;
-}
 
-@media screen and (max-width: 1870px) {
-    .footer-wrap,
-    .wrap {
-        width: 1414px;
-    }
-}
-
-@media screen and (max-width: 1654px) {
-    .footer-wrap,
-    .wrap {
-        width: 1198px;
-    }
-}
-
-@media screen and (max-width: 1438px) {
-    .footer-wrap,
-    .wrap {
-        width: 999px;
-    }
-}
 </style>
