@@ -50,21 +50,15 @@
             <div class="text-con">
                 <p>
                     <span>
-                        <a
-                            href="//i0.hdslb.com/bfs/activity-plat/static/20210302/fd61576fc72dac89e5e7763dfd8d7bc7/JzUN7b8Ek.png"
-                            target="_blank"
-                        >营业执照</a>
-                    </span>
-                    <span>信息网络传播视听节目许可证：0910417</span>
-                    <span>网络文化经营许可证 沪网文【2019】3804-274号</span>
-                    <span>广播电视节目制作经营许可证：（沪）字第01248号</span>
-                    <span>增值电信业务经营许可证 沪B2-20100043</span>
-                    <span>
-                        互联网ICP备案：
-                        <a href="http://beian.miit.gov.cn/" target="_blank">沪ICP备13002172号-3</a>
-                    </span>
-                    <span>出版物经营许可证 沪批字第U6699 号</span>
-                    <span>互联网药品信息服务资格证 沪-非经营性-2016-0143</span>
+                        <a href="//i0.hdslb.com/bfs/activity-plat/static/20210302/fd61576fc72dac89e5e7763dfd8d7bc7/JzUN7b8Ek.png" target="_blank">营业执照</a>
+                    </span>{{'\n'}}
+                    <span>信息网络传播视听节目许可证：0910417</span>{{'\n'}}
+                    <span>网络文化经营许可证 沪网文【2019】3804-274号</span>{{'\n'}}
+                    <span>广播电视节目制作经营许可证：（沪）字第01248号</span>{{'\n'}}
+                    <span>增值电信业务经营许可证 沪B2-20100043</span>{{'\n'}}
+                    <span>互联网ICP备案：<a href="http://beian.miit.gov.cn/" target="_blank">沪ICP备13002172号-3</a></span>{{'\n'}}
+                    <span>出版物经营许可证 沪批字第U6699 号</span>{{'\n'}}
+                    <span>互联网药品信息服务资格证 沪-非经营性-2016-0143</span>{{'\n'}}
                     <span>营业性演出许可证 沪市文演（经）00-2253</span>
                 </p>
                 <p>违法不良信息举报邮箱：help@bilibili.com |违法不良信息举报电话：4006262233转1</p>
@@ -81,9 +75,7 @@
                     <a href="http://www.shdf.gov.cn/shdf/channels/740.html">扫黄打非举报</a>
                 </p>
                 <p>
-                    网上有害信息举报专区：
-                    <i class="sprite bg3"></i>
-                    <a href="https://www.12377.cn/" target="_blank">中国互联网违法和不良信息举报中心</a>
+                    网上有害信息举报专区：<i class="sprite bg3"></i><a href="https://www.12377.cn/" target="_blank">中国互联网违法和不良信息举报中心</a>
                 </p>
                 <p>亲爱的市民朋友，上海警方反诈劝阻电话“96110”系专门针对避免您财产被骗受损而设，请您一旦收到来电，立即接听。</p>
                 <p>公司名称：上海宽娱数码科技有限公司|公司地址：上海市杨浦区政立路485号|电话：021-25099888</p>
@@ -212,14 +204,23 @@ export default {
     background-color: #f6f9fa;
     padding: 30px 0;
     min-width: 999px;
-    /* 滚动条偏移修正 */
-    margin-right: -12px;
+    /*  */
+    margin-right:-17px;
 }
 
 .international-footer * {
     box-sizing: border-box;
     margin: 0;
     padding: 0;
+}
+
+.international-footer a {
+    color: #212121;
+    transition: color 0.3s;
+}
+
+.international-footer .partner a:hover {
+    color: #00a1d6;
 }
 
 .international-footer .footer-wrap {
@@ -391,6 +392,11 @@ export default {
 
 .international-footer .partner .text-con {
     width: calc(100% - 120px);
+}
+
+.international-footer .partner .text-con span {
+    margin-right: 15px;
+    display: inline-block;
 }
 
 .international-footer .partner .pic {

@@ -23,7 +23,10 @@ const api = {
     RcmdComics: 'manga/twirp/comic.v1.Comic/GetRecommendComics',
     HomeHotComics: 'manga/twirp/comic.v1.Comic/HomeHot',
     HomeFansComics: 'manga/twirp/comic.v1.Comic/HomeFans',
-    SpecialRcmd: 'sclrcmd'
+    SpecialRcmd: 'sclrcmd',
+    Banner: 'bili/x/web-show/page/header',
+    UserStatCnt: 'bili/x/web-interface/nav/stat',
+    Logout: 'passport/login/exit/v2'
 }
 
 //登录个人信息
@@ -184,6 +187,28 @@ export function getHomeFansComics(type) {
     })
 }
 
+// 底部特别推荐
 export function getSpecialRcmd() {
     return axios.get(api.SpecialRcmd)
+}
+
+// 顶部横幅和logo
+export function getBanner(resource_id) {
+    return axios.get(api.Banner, {
+        params: {
+            resource_id
+        }
+    })
+}
+
+// 获取用户状态数（关注数，粉丝数，动态数）
+export function getUserStatCnt() {
+    return axios.get(api.UserStatCnt)
+}
+
+// 退出登录
+export function Logout(biliCSRF) {
+    return axios.post(api.Logout, {
+        biliCSRF
+    })
 }

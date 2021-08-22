@@ -10,7 +10,7 @@
                     >
                         <div v-show="index === swipeData.currentIndex" class="item">
                             <a :href="item.url" target="_blank">
-                                <img v-if="item.pic" v-lazy="item.pic" :alt="item.name" />
+                                <img v-if="item.pic" :src="item.pic" :alt="item.name" />
                                 <p class="title">
                                     <i v-if="item.is_ad" class="bypb-icon"></i>
                                     {{ item.name }}
@@ -41,7 +41,7 @@
                     >
                         <div class="info-box">
                             <a :href="item.uri" target="_blank">
-                                <img v-if="item.pic" v-lazy="item.pic" />
+                                <img v-if="item.pic" :src="item.pic" />
                                 <div class="info">
                                     <p :title="item.title" class="title">{{ item.title }}</p>
                                     <p class="up">
@@ -95,11 +95,11 @@
                     >
                         <div class="card-pic">
                             <a :href="item.url" target="_blank">
-                                <img v-lazy="item.pic + '@412w_232h_1c'" />
+                                <img :src="item.pic + '@412w_232h_1c'" />
                                 <div class="count">
                                     <div class="left"></div>
                                     <div class="right">
-                                        <span>{{ item.archive ? $format.formatSeconds(item.archive.duration) : '' }}</span>
+                                        <span>{{ item.archive ? $format.formatDuration(item.archive.duration) : '' }}</span>
                                     </div>
                                 </div>
                                 <p class="ex-title" :title="item.name">
@@ -136,7 +136,7 @@
                     class="operate-card"
                     :href="locsData['29'][0].url"
                 >
-                    <img v-lazy="locsData['29'][0].pic" :alt="locsData['29'][0].name" />
+                    <img :src="locsData['29'][0].pic" :alt="locsData['29'][0].name" />
                 </a>
             </div>
         </div>
@@ -163,7 +163,7 @@
                     >
                         <div :class="{ 'card-pic': item.archive, 'match-card-pic': item.room }">
                             <a :href="item.url" target="_blank">
-                                <img v-lazy="item.pic + '@206w_116h_1c_100q.jpg'" />
+                                <img :src="item.pic + '@206w_116h_1c_100q.jpg'" />
                                 <div class="count">
                                     <div class="left">
                                         <span v-if="item.archive">
@@ -178,7 +178,7 @@
                                     <div class="right">
                                         <span
                                             v-if="item.archive"
-                                        >{{ $format.formatSeconds(item.archive.duration) }}</span>
+                                        >{{ $format.formatDuration(item.archive.duration) }}</span>
                                         <i
                                             v-else-if="item.room"
                                             class="bilifont bili-icon_xinxi_renqi"

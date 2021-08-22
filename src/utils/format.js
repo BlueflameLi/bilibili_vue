@@ -1,20 +1,24 @@
-export function formatSeconds(value) {
+export function formatDuration(t) {
 
-    if (!Number(value)) return value
+    if (String(t).indexOf(":") !== -1)
+        return t
 
-    let secondTime = parseInt(value % 60); // 秒
-    let minuteTime = parseInt(value / 60); // 分
-    let hourTime = 0
-    if (minuteTime >= 60) {
-        hourTime = parseInt(minuteTime / 60);
-        minuteTime = parseInt(minuteTime % 60);
+    if (t < 60)
+        return t < 10 ? '0' + t : "00:" + t
+
+    let s = parseInt(t % 60) // 秒
+    let m = parseInt(t / 60) // 分
+
+    let res = ''
+    if (m >= 60) {
+        let h = parseInt(m / 60)
+        m = parseInt(m % 60)
+        res += h + ":"
     }
-    var result = "" + (parseInt(secondTime) < 10 ? "0" + parseInt(secondTime) : parseInt(secondTime));
-    result = "" + (parseInt(minuteTime) < 10 ? "0" + parseInt(minuteTime) : parseInt(minuteTime)) + ":" + result;
-    if (hourTime > 0) {
-        result = "" + parseInt(hourTime) + ":" + result;
-    }
-    return result;
+
+    res += (m < 10 ? "0" + m : m) + ":"
+    res += (s < 10 ? "0" + s : s)
+    return res
 }
 
 export function formatCount(value) {

@@ -1,17 +1,17 @@
 <template>
     <div id="app">
         <SvgIcon></SvgIcon>
-        <Home></Home>
+        <router-view></router-view>
     </div>
 </template>
 
 <script>
-import Home from './components/Home'
+// import Home from './components/Home'
 
 export default {
     name: 'App',
     components: {
-        Home
+        // Home
     }
 }
 </script>
@@ -22,26 +22,6 @@ export default {
     padding: 0;
 }
 
-/* border-box全局继承 */
-html {
-    box-sizing: border-box;
-}
-
-*,
-*:before,
-*:after {
-    box-sizing: inherit;
-}
-
-html {
-    box-sizing: border-box;
-}
-
-*,
-*:before,
-*:after {
-    box-sizing: inherit;
-}
 
 /* li无点 */
 ol,

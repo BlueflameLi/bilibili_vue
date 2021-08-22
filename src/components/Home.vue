@@ -1,28 +1,46 @@
 <template>
     <div class="home">
-        <TheHeader></TheHeader>
-        <TheMain></TheMain>
-        <TheFooter></TheFooter>
+        <TheHeader :navType="1" />
+        <FirstScreen />
+        <StoryBox />
+        <TheFooter />
     </div>
 </template>
 
 <script>
-import TheHeader from './TheHeader.vue'
-import TheMain from './TheMain'
+import { mapActions } from 'vuex'
+import TheHeader from './TheHeader/TheHeader'
+import FirstScreen from './FirstScreen'
+import StoryBox from './StoreyBox/StoryBox';
 import TheFooter from './TheFooter'
 export default {
     name: 'Home',
     components: {
         TheHeader,
-        TheMain,
+        FirstScreen,
+        StoryBox,
         TheFooter
+    },
+    methods: {
+        ...mapActions(['setUserInfo']),
     },
     created() {
         this.$store.dispatch('getLocsData')
+    },
+    mounted() {
+        this.setUserInfo()
     },
 }
 </script>
 
 
 <style>
+/* border-box全局继承 */
+html {
+    box-sizing: border-box;
+}
+
+*:not(.login-app *), .el-popover {
+    box-sizing: border-box;
+}
 </style>
