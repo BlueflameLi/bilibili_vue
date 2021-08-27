@@ -33,22 +33,14 @@ module.exports = {
                     '^/api/live': ''
                 }
             },
-            '/api/manga': {
-                target: 'http://localhost:5000',
+            '/api/self': {
+                target: 'http://localhost:54321',
                 ws: true,
                 changeOrigin: true,
                 pathRewrite: {
-                    '^/api/manga': ''
+                    '^/api/self': ''
                 }
-            },
-            '/api/sclrcmd': {
-                target: 'http://localhost:5001',
-                ws: true,
-                changeOrigin: true,
-                pathRewrite: {
-                    '^/api/sclrcmd': ''
-                }
-            },
+            }
         }
     }
 }

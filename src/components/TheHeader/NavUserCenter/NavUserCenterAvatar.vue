@@ -15,7 +15,7 @@
                             v-if="userInfo.face"
                             class="bili-avatar-img bili-avatar-face bili-avatar-img-radius"
                             alt
-                            :src="userInfo.face + '@96w_96h_1c_1s.webp'"
+                            :src="$format.trimHttp(userInfo.face) + '@96w_96h_1c_1s.webp'"
                         />
 
                         <span class="bili-avatar-icon"></span>
@@ -35,7 +35,7 @@
                         v-if="userInfo.face"
                         class="bili-avatar-img bili-avatar-face bili-avatar-img-radius"
                         alt
-                        :src="userInfo.face + (hasDecorate ? '@120w_120h_1c_1s.webp' : '@160w_160h_1c_1s.webp')"
+                        :src="$format.trimHttp(userInfo.face) + (hasDecorate ? '@120w_120h_1c_1s.webp' : '@160w_160h_1c_1s.webp')"
                     />
                     <div v-if="hasDecorate" class="bili-avatar-pendent">
                         <img
@@ -48,7 +48,7 @@
                     <span
                         class="bili-avatar-icon"
                         :class="iconType && iconType != 'custom' ? 'bili-avatar-icon--' + iconType : ''"
-                        :style="iconType === 'custom' ? `background-image: url(${userInfo.vip.avatar_subscript_url}@40w_40h_1c.webp);` : ''"
+                        :style="iconType === 'custom' ? `background-image: url(${$format.trimHttp(userInfo.vip.avatar_subscript_url)}@40w_40h_1c.webp);` : ''"
                     ></span>
                 </div>
             </a>

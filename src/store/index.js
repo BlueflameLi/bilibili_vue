@@ -136,7 +136,6 @@ const actions = {
             ids: '29,31,34,40,42,44,1550,3449,2836'
         }).then(
             response => {
-                console.log(response.data)
                 commit(TYPE.SET_LOCS, response.data)
             })
     },

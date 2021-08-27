@@ -1,8 +1,8 @@
 <template>
     <div class="video-card-common">
         <div class="card-pic">
-            <a :href="'//www.bilibili.com/video/' + bvid" target="_blank">
-                <img :src="pic" alt />
+            <a v-framepreview="aid" v-danmu="aid" :href="'//www.bilibili.com/video/' + bvid" target="_blank">
+                <img :src="$format.trimHttp(pic)" alt />
                 <div class="count">
                     <div class="left">
                         <span v-if="stat && stat.view">
@@ -40,22 +40,82 @@
 export default {
     name: 'VideoCardCommon',
     props: {
+        aid: Number,
         pic: String,
         bvid: String,
         stat: Object,
         duration: [String, Number],
         title: String,
-        owner: Object
+        owner: Object,
     },
     computed: {
         crown() {
-            var t = this.stat && this.stat.coin || 0;
-            return t >= 2e3 && t < 1e4 ? "silver" : t >= 1e4 ? "gold" : ""
-        }
+            var t = (this.stat && this.stat.coin) || 0
+            return t >= 2e3 && t < 1e4 ? 'silver' : t >= 1e4 ? 'gold' : ''
+        },
     },
 }
 </script>
 <style>
+.van-framepreview {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    overflow: hidden;
+    transition: opacity 0.3s;
+    z-index: 1;
+}
+
+.van-framepreview .van-fpbar-box {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 10px;
+    border-color: #000;
+    border-style: solid;
+    border-width: 4px 8px;
+    background: #444;
+    box-sizing: border-box;
+}
+
+.van-framepreview .van-fpbar-box span {
+    display: block;
+    background: #fff;
+    height: 2px;
+    transition: width 0.12s;
+}
+
+.van-danmu {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    overflow: hidden;
+    transition: opacity .3s;
+    z-index: 2
+}
+
+.van-danmu-item {
+    position: absolute;
+    color: #fff;
+    white-space: pre;
+    will-change: transform;
+    top: 8px;
+    left: 100%;
+    text-shadow: 1px 1px 2px #001
+}
+
+.van-danmu-item.row2 {
+    top: 28px
+}
+
+
 .video-card-common {
     width: 206px;
     cursor: pointer;
@@ -102,7 +162,7 @@ export default {
 }
 
 .video-card-common .card-pic a:before {
-    content: "";
+    content: '';
     position: absolute;
     width: 100%;
     height: 48px;

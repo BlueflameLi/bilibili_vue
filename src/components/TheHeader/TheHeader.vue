@@ -40,10 +40,7 @@
                     <span v-for="(item,index) in primaryChannelMenu" :key="index">
                         <div class="item">
                             <a :href="item.url" class="name">
-                                <span>
-                                    {{ item.name }}
-                                    <em>{{ regionCount.length ? regionCount[index] : '-' }}</em>
-                                </span>
+                                <span>{{ item.name }}<em>{{ regionCount.length ? regionCount[index] : '-' }}</em></span>
                             </a>
                         </div>
                     </span>
@@ -82,18 +79,18 @@ import NavSearch from './NavSearch/NavSearch'
 import NavUserCenter from './NavUserCenter/NavUserCenter'
 
 export default {
-    name: "TheHeader",
+    name: 'TheHeader',
     components: {
         Banner,
         NavUserCenter,
         NavLink,
-        NavSearch
+        NavSearch,
     },
     props: {
         navType: {
             type: Number,
-            default: 0
-        }
+            default: 0,
+        },
     },
     data() {
         return {
@@ -121,170 +118,165 @@ export default {
                     url: '/',
                     color: 'channel',
                     icon: 'bilifont bili-pindao',
-                }
+                },
             ],
-            primaryChannelMenu: [{
-                name: '动画',
-                url: '/'
-            },
-            {
-                name: '番剧',
-                url: '/'
-            },
-            {
-                name: '音乐',
-                url: '/'
-            },
-            {
-                name: '国创',
-                url: '/'
-            },
-            {
-                name: '舞蹈',
-                url: '/'
-            },
-            {
-                name: '游戏',
-                url: '/'
-            }, {
-                name: '知识',
-                url: '/'
-            },
-            {
-                name: '科技',
-                url: '/'
-            },
-            {
-                name: '生活',
-                url: '/'
-            },
-            {
-                name: '鬼畜',
-                url: '/'
-            },
-            {
-                name: '时尚',
-                url: '/'
-            },
-            {
-                name: '资讯',
-                url: '/'
-            },
-            {
-                name: '娱乐',
-                url: '/'
-            },
-            {
-                name: '影视',
-                url: '/'
-            },
-            {
-                name: '放映厅',
-                url: '/'
-            }],
+            primaryChannelMenu: [
+                {
+                    name: '动画',
+                    url: '/',
+                },
+                {
+                    name: '番剧',
+                    url: '/',
+                },
+                {
+                    name: '音乐',
+                    url: '/',
+                },
+                {
+                    name: '国创',
+                    url: '/',
+                },
+                {
+                    name: '舞蹈',
+                    url: '/',
+                },
+                {
+                    name: '游戏',
+                    url: '/',
+                },
+                {
+                    name: '知识',
+                    url: '/',
+                },
+                {
+                    name: '科技',
+                    url: '/',
+                },
+                {
+                    name: '生活',
+                    url: '/',
+                },
+                {
+                    name: '鬼畜',
+                    url: '/',
+                },
+                {
+                    name: '时尚',
+                    url: '/',
+                },
+                {
+                    name: '资讯',
+                    url: '/',
+                },
+                {
+                    name: '娱乐',
+                    url: '/',
+                },
+                {
+                    name: '影视',
+                    url: '/',
+                },
+                {
+                    name: '放映厅',
+                    url: '/',
+                },
+            ],
             primaryFriendshipLink: [
                 {
                     name: '专栏',
                     url: '/',
-                    svg: '#bili-read'
+                    svg: '#bili-read',
                 },
                 {
                     name: '直播',
                     url: '/',
-                    svg: '#bili-live'
+                    svg: '#bili-live',
                 },
                 {
                     name: '活动',
                     url: '/',
-                    svg: '#bili-activit'
+                    svg: '#bili-activit',
                 },
                 {
                     name: '课堂',
                     url: '/',
-                    svg: '#bili-zhishi'
+                    svg: '#bili-zhishi',
                 },
                 {
                     name: '小黑屋',
                     url: '/',
-                    svg: '#bili-blackroom'
+                    svg: '#bili-blackroom',
                 },
                 {
                     name: '新歌热榜',
                     url: '/',
-                    svg: '#bili-musicplus'
-                }
+                    svg: '#bili-musicplus',
+                },
             ],
             regionCount: [],
-            navFixed: false
+            navFixed: false,
         }
     },
     computed: {
         ...mapState(['userInfo']),
-
     },
     methods: {
         setOnline() {
-            getOnline().then(
-                reponse => {
-                    var { region_count } = reponse.data
-                    this.regionCount = []
-                    this.regionCount.push(this.fromatOnline(region_count['1']))
-                    this.regionCount.push(this.fromatOnline(region_count['13']))
-                    this.regionCount.push(this.fromatOnline(region_count['3']))
-                    this.regionCount.push(this.fromatOnline(region_count['167']))
-                    this.regionCount.push(this.fromatOnline(region_count['129']))
-                    this.regionCount.push(this.fromatOnline(region_count['4']))
-                    this.regionCount.push(this.fromatOnline(region_count['36']))
-                    this.regionCount.push(this.fromatOnline(region_count['188']))
-                    this.regionCount.push(this.fromatOnline(region_count['160']))
-                    this.regionCount.push(this.fromatOnline(region_count['119']))
-                    this.regionCount.push(this.fromatOnline(region_count['155']))
-                    this.regionCount.push(this.fromatOnline(region_count['202']))
-                    this.regionCount.push(this.fromatOnline(region_count['5']))
-                    this.regionCount.push(this.fromatOnline(region_count['181']))
-                    this.regionCount.push(this.fromatOnline(region_count['11'] + region_count['23'] + region_count['177']))
-                }
-            )
+            getOnline().then((reponse) => {
+                var { region_count } = reponse.data
+                this.regionCount = []
+                this.regionCount.push(this.fromatOnline(region_count['1']))
+                this.regionCount.push(this.fromatOnline(region_count['13']))
+                this.regionCount.push(this.fromatOnline(region_count['3']))
+                this.regionCount.push(this.fromatOnline(region_count['167']))
+                this.regionCount.push(this.fromatOnline(region_count['129']))
+                this.regionCount.push(this.fromatOnline(region_count['4']))
+                this.regionCount.push(this.fromatOnline(region_count['36']))
+                this.regionCount.push(this.fromatOnline(region_count['188']))
+                this.regionCount.push(this.fromatOnline(region_count['160']))
+                this.regionCount.push(this.fromatOnline(region_count['119']))
+                this.regionCount.push(this.fromatOnline(region_count['155']))
+                this.regionCount.push(this.fromatOnline(region_count['202']))
+                this.regionCount.push(this.fromatOnline(region_count['5']))
+                this.regionCount.push(this.fromatOnline(region_count['181']))
+                this.regionCount.push(
+                    this.fromatOnline(
+                        region_count['11'] +
+                            region_count['23'] +
+                            region_count['177']
+                    )
+                )
+            })
         },
         fromatOnline(val) {
-            if (val > 999)
-                return '999+'
-            else
-                return val
+            if (val > 999) return '999+'
+            else return val
         },
         handleBsource() {
-            var that = this;
-            var e = document.scrollingElement || document.documentElement;
+            var that = this
+            var e = document.scrollingElement || document.documentElement
             this.handleScroll = function () {
-                if (!that.navFixed && e.scrollTop > 56)
-                    that.navFixed = true
+                if (!that.navFixed && e.scrollTop > 56) that.navFixed = true
                 else if (that.navFixed && e.scrollTop <= 56)
                     that.navFixed = false
             }
-            window.addEventListener("scroll", this.handleScroll)
+            window.addEventListener('scroll', this.handleScroll)
         },
-        onLoginUpdate() {
-
-        }
+        onLoginUpdate() {},
     },
     watch: {
         'userInfo.isLogin'(value) {
-            console.log(value);
             if (value || this.$router.currentRoute.path === '/login') {
                 if (this.handleScroll)
-                    window.removeEventListener("scroll", this.handleScroll)
+                    window.removeEventListener('scroll', this.handleScroll)
                 this.navFixed = false
-            }
-            else
-                this.handleBsource()
-        }
-
+            } else this.handleBsource()
+        },
     },
     mounted() {
-
         this.setOnline()
     },
-
 }
 </script>
 <style>
@@ -450,8 +442,6 @@ export default {
     text-align: center;
     padding-bottom: 24px;
 }
-
-
 
 /* 主菜单 */
 .primary-menu {

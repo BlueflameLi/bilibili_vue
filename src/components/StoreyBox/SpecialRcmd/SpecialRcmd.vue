@@ -6,6 +6,7 @@
                 <VideoCardCommon
                     v-for="(item, index) in specialRcmdData"
                     :key="index"
+                    :aid="item.aid"
                     :pic="item.pic+'@206w_116h_1c_100q.webp'"
                     :bvid="item.bvid"
                     :stat="{ like: item.like, view: item.play, coin: item.coins }"
@@ -16,7 +17,7 @@
             </div>
         </div>
         <a v-if="spcialRcmdPic" target="_blank" class="operate-card gg" :href="spcialRcmdPic.url">
-            <img v-lazy="spcialRcmdPic.pic" :alt="spcialRcmdPic.name" />
+            <img v-lazy="$format.trimHttp(spcialRcmdPic.pic)" :alt="spcialRcmdPic.name" />
         </a>
     </div>
 </template>

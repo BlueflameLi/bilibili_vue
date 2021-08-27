@@ -9,10 +9,10 @@
 
 <script>
 import { mapActions } from 'vuex'
-import TheHeader from './TheHeader/TheHeader'
-import FirstScreen from './FirstScreen'
-import StoryBox from './StoreyBox/StoryBox';
-import TheFooter from './TheFooter'
+import TheHeader from '@/components/TheHeader/TheHeader'
+import FirstScreen from '@/components/FirstScreen'
+import StoryBox from '@/components/StoreyBox/StoryBox';
+import TheFooter from '@/components/TheFooter'
 export default {
     name: 'Home',
     components: {

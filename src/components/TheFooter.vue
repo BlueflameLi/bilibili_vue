@@ -118,7 +118,7 @@ export default {
                     name: 'bilibili认证'
                 },
                 {
-                    url: 'https://www.bilibili.com/protocal/licence.html',
+                    url: 'https://ir.bilibili.com/',
                     name: 'Investor Relations'
                 },
                 {

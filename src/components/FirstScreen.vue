@@ -9,8 +9,8 @@
                         :name="swipeData.dir"
                     >
                         <div v-show="index === swipeData.currentIndex" class="item">
-                            <a :href="item.url" target="_blank">
-                                <img v-if="item.pic" :src="item.pic" :alt="item.name" />
+                            <a :href="$format.trimHttp(item.url)" target="_blank">
+                                <img v-if="item.pic" :src="$format.trimHttp(item.pic)" :alt="item.name" />
                                 <p class="title">
                                     <i v-if="item.is_ad" class="bypb-icon"></i>
                                     {{ item.name }}
@@ -34,32 +34,36 @@
             </div>
             <div class="rcmd-box-wrap">
                 <div class="rcmd-box">
-                    <div
-                        v-for="(item, index) in rcmdData.slice(0, 10)"
-                        :key="index"
-                        class="video-card-reco"
-                    >
+                    <div v-for="(item, index) in recList" :key="index" class="video-card-reco">
                         <div class="info-box">
                             <a :href="item.uri" target="_blank">
-                                <img v-if="item.pic" :src="item.pic" />
+                                <img v-if="item.pic" :src="$format.trimHttp(item.pic) + '@412w_232h_1c.jpg'" />
                                 <div class="info">
                                     <p :title="item.title" class="title">{{ item.title }}</p>
                                     <p class="up">
                                         <i class="bilifont bili-icon_xinxi_UPzhu"></i>
-                                        {{ item.owner ? item.owner.name : '' }}
+                                        {{ item.owner ? item.owner.name : "" }}
                                     </p>
-                                    <p
-                                        class="play"
-                                    >{{ item.stat ? $format.formatCount(item.stat.view) : '' }}播放量</p>
+                                    <p class="play">
+                                        {{
+                                        item.stat ? formatCount(item.stat.view) : ""
+                                        }}播放量
+                                    </p>
                                 </div>
                             </a>
                         </div>
                         <div class="watchlater">
-                            <span class="wl-tips" style="left: -21px;">稍后再看</span>
+                            <span class="wl-tips" style="left: -21px">稍后再看</span>
                         </div>
                     </div>
                 </div>
-                <div class="change-btn" @click="setRcmd">
+                <div v-if="abtest === 'a'" class="btn prev" @click="prev">
+                    <i class="bilifont bili-icon_caozuo_xiangzuo"></i>
+                </div>
+                <div v-if="abtest === 'a'" class="btn next" @click="next">
+                    <i class="bilifont bili-icon_caozuo_xiangyou"></i>
+                </div>
+                <div v-if="abtest === 'b'" class="change-btn" @click="setRcmd">
                     <i class="bilifont bili-icon_caozuo_huanyihuan"></i>
                     <span>换一换</span>
                 </div>
@@ -75,7 +79,7 @@
                         <a target="_blank" class="name no-link">推广</a>
                         <div class="text-info">
                             <a
-                                v-for="(item,index) in locsData['1550']"
+                                v-for="(item, index) in locsData['1550']"
                                 :key="index"
                                 :href="item.url"
                                 target="_blank"
@@ -89,17 +93,23 @@
                 </header>
                 <div class="ext-box">
                     <div
-                        v-for="(item,index) in locsData['34']"
+                        v-for="(item, index) in locsData['34']"
                         :key="index"
                         class="video-card-common ex-card-common"
                     >
                         <div class="card-pic">
-                            <a :href="item.url" target="_blank">
-                                <img :src="item.pic + '@412w_232h_1c'" />
+                            <a :href="$format.trimHttp(item.url)" target="_blank">
+                                <img :src="$format.trimHttp(item.pic) + '@412w_232h_1c'" />
                                 <div class="count">
                                     <div class="left"></div>
                                     <div class="right">
-                                        <span>{{ item.archive ? $format.formatDuration(item.archive.duration) : '' }}</span>
+                                        <span>
+                                            {{
+                                            item.archive
+                                            ? formatDuration(item.archive.duration)
+                                            : ""
+                                            }}
+                                        </span>
                                     </div>
                                 </div>
                                 <p class="ex-title" :title="item.name">
@@ -136,11 +146,11 @@
                     class="operate-card"
                     :href="locsData['29'][0].url"
                 >
-                    <img :src="locsData['29'][0].pic" :alt="locsData['29'][0].name" />
+                    <img :src="$format.trimHttp(locsData['29'][0].pic)" :alt="locsData['29'][0].name" />
                 </a>
             </div>
         </div>
-        <div v-if="true" class="space-between">
+        <div v-if="show" class="space-between">
             <div class="extension">
                 <header class="storey-title">
                     <div class="l-con">
@@ -157,33 +167,39 @@
                 </header>
                 <div class="ext-box">
                     <div
-                        v-for="(item,index) in locsData['3449']"
+                        v-for="(item, index) in locsData['3449']"
                         :key="index"
                         class="video-card-common"
                     >
                         <div :class="{ 'card-pic': item.archive, 'match-card-pic': item.room }">
-                            <a :href="item.url" target="_blank">
-                                <img :src="item.pic + '@206w_116h_1c_100q.jpg'" />
+                            <a :href="$format.trimHttp(item.url)" target="_blank">
+                                <img :src="$format.trimHttp(item.pic) + '@206w_116h_1c_100q.jpg'" />
                                 <div class="count">
                                     <div class="left">
                                         <span v-if="item.archive">
                                             <i class="bilifont bili-icon_shipin_bofangshu"></i>
-                                            {{ $format.formatCount(item.archive.stat.view) }}
+                                            {{ formatCount(item.archive.stat.view) }}
                                         </span>
                                         <span v-if="item.archive">
                                             <i class="bilifont bili-icon_shipin_dianzanshu"></i>
-                                            {{ $format.formatCount(item.archive.stat.like) }}
+                                            {{ formatCount(item.archive.stat.like) }}
                                         </span>
                                     </div>
                                     <div class="right">
-                                        <span
-                                            v-if="item.archive"
-                                        >{{ $format.formatDuration(item.archive.duration) }}</span>
+                                        <span v-if="item.archive">
+                                            {{
+                                            formatDuration(item.archive.duration)
+                                            }}
+                                        </span>
                                         <i
                                             v-else-if="item.room"
                                             class="bilifont bili-icon_xinxi_renqi"
                                         ></i>
-                                        {{ item.room ? $format.formatCount(item.room.show.popularity_count) : '' }}
+                                        {{
+                                        item.room
+                                        ? formatCount(item.room.show.popularity_count)
+                                        : ""
+                                        }}
                                     </div>
                                 </div>
                                 <p
@@ -219,7 +235,6 @@
 import { getRcmd, getLoc } from '@/api'
 import { mapState } from 'vuex'
 
-
 export default {
     name: 'FirstScreen',
     data() {
@@ -228,9 +243,11 @@ export default {
             swipeData: {
                 currentIndex: 0,
                 timer: null,
-                dir: 'next'
+                dir: 'next',
             },
             rcmdData: [{}, {}, {}, {}, {}, {}, {}, {}, {}, {}],
+            abtest: 'a',
+            page: 0,
         }
     },
     computed: {
@@ -240,7 +257,22 @@ export default {
         nextIndex() {
             return (this.swipeData.currentIndex + 1) % 5
         },
-        ...mapState(['locsData'])
+        recList() {
+            if (this.abtest === 'a')
+                return (
+                    (this.rcmdData &&
+                        this.rcmdData.slice(
+                            10 * this.page,
+                            10 * (this.page + 1)
+                        )) ||
+                    []
+                )
+            else return this.rcmdData.slice(0, 10) || []
+        },
+        show() {
+            return this.locsData['3449'] && this.locsData['3449'].length >= 6
+        },
+        ...mapState(['locsData']),
     },
     methods: {
         swipeTo(index) {
@@ -248,8 +280,7 @@ export default {
             if (index > this.swipeData.currentIndex) {
                 this.swipeData.dir = 'next'
                 this.swipeData.currentIndex = index
-            }
-            else if (index < this.swipeData.currentIndex) {
+            } else if (index < this.swipeData.currentIndex) {
                 this.swipeData.dir = 'pre'
                 this.swipeData.currentIndex = index
             }
@@ -259,23 +290,32 @@ export default {
             }, 5000)
         },
         setRcmd() {
-            getRcmd().then(
-                response => {
-                    this.rcmdData = response.data.item
-                })
+            getRcmd().then((response) => {
+                this.rcmdData = response.data.item
+                this.abtest = response.data.abtest.group
+            })
         },
         getSwipe() {
-            getLoc({ pf: '0', id: '3197' }).then(
-                response => {
-                    this.imagesData = response.data
+            getLoc({ pf: '0', id: '3197' }).then((response) => {
+                this.imagesData = response.data
 
-                    this.swipeData.timer = setInterval(() => {
-                        this.swipeTo(this.nextIndex)
-                    }, 5000)
-                })
+                this.swipeData.timer = setInterval(() => {
+                    this.swipeTo(this.nextIndex)
+                }, 5000)
+            })
         },
-
-
+        prev() {
+            this.page = (this.page - 1 + 3) % 3
+        },
+        next() {
+            this.page = (this.page + 1) % 3
+        },
+        formatCount(val) {
+            return this.$format.formatCount(val)
+        },
+        formatDuration(val) {
+            return this.$format.formatDuration(val)
+        },
     },
     mounted() {
         this.getSwipe()
@@ -359,7 +399,7 @@ export default {
     border-radius: 2px;
     background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAAwCAYAAAGnNCAXAAAABGdBTUEAALGPC/xhBQAAAENJREFUCB1jYGBgYGICEpIgQgqNBRRi4MMmARYDyXKAWLwgggfOAnMJiIH0soJ0sMEJdlQWWBYshpAAK0ZwwSzS1AEAes8Ckyqvlc0AAAAASUVORK5CYII=);
     background-size: contain;
-    content: "";
+    content: '';
 }
 
 .focus-carousel .bypb-icon {
@@ -527,7 +567,7 @@ export default {
     }
 }
 .video-card-reco:before {
-    content: "";
+    content: '';
     position: absolute;
     z-index: 1;
     bottom: 0;
@@ -538,6 +578,40 @@ export default {
     background-size: contain;
     background-repeat: repeat-x;
     border-radius: 0 0 2px 2px;
+}
+
+.rcmd-box-wrap:hover .btn {
+    opacity: 1;
+}
+
+.rcmd-box-wrap .btn {
+    opacity: 0;
+    position: absolute;
+    z-index: 3;
+    top: 50%;
+    margin-top: -35px;
+    width: 32px;
+    height: 70px;
+    background: rgba(0, 0, 0, 0.6);
+    color: #fff;
+    text-align: center;
+    line-height: 70px;
+    transition: opacity 0.2s;
+    cursor: pointer;
+}
+
+.rcmd-box-wrap .btn.prev {
+    border-radius: 0 2px 2px 0;
+    left: 0;
+}
+
+.rcmd-box-wrap .btn.next {
+    border-radius: 2px 0 0 2px;
+    right: 0;
+}
+
+.rcmd-box-wrap .btn .bilifont {
+    font-size: 30px;
 }
 
 .rcmd-box-wrap .change-btn {
@@ -586,7 +660,7 @@ export default {
 }
 
 .video-card-reco .info-box:before {
-    content: "";
+    content: '';
     position: absolute;
     left: 0;
     top: 0;
@@ -653,7 +727,6 @@ export default {
     transition-delay: 0.2s;
     opacity: 1;
 }
-
 
 .video-card-reco:hover .info-box:before {
     opacity: 1;
@@ -799,7 +872,7 @@ export default {
 }
 
 .video-card-common .card-pic a:before {
-    content: "";
+    content: '';
     position: absolute;
     width: 100%;
     height: 48px;
@@ -982,7 +1055,7 @@ export default {
 }
 
 .video-card-common .match-card-pic a:before {
-    content: "";
+    content: '';
     position: absolute;
     width: 100%;
     height: 48px;

@@ -1,7 +1,11 @@
 <template>
     <div class="qrcode-login">
         <div class="qrcode-con">
-            <i class="tv-icon"></i>
+            <i
+                class="tv-icon"
+                style="background: url(//i0.hdslb.com/bfs/static/e6f2388d454c82004905753802e9cfe709d80d08.png)
+        no-repeat;"
+            ></i>
             <div class="qrcode-box" @mouseenter="showAndHideTips" @mouseleave="showAndHideTips">
                 <div class="qrcode-tips" :class="{ mouseenter: showTips }"></div>
                 <div class="qrcode-img" ref="qrcode"></div>
@@ -49,78 +53,77 @@ export default {
     },
     methods: {
         setQRCode() {
-            getQRCode().then(
-                response => {
-                    if (response.status) {
-                        if (this.qrcode) {
-                            this.qrcode.clear()
-                            this.qrcode.makeCode(response.data.url)
-                        }
-                        else {
-                            this.$nextTick(() => {
-                                this.qrcode = new QRCode(this.$refs.qrcode, {
-                                    text: response.data.url,
-                                    width: 140,
-                                    height: 140,
-                                    colorDark: '#000000',
-                                    colorLight: '#ffffff'
-                                })
+            getQRCode().then((response) => {
+                if (response.status) {
+                    if (this.qrcode) {
+                        this.qrcode.clear()
+                        this.qrcode.makeCode(response.data.url)
+                    } else {
+                        this.$nextTick(() => {
+                            this.qrcode = new QRCode(this.$refs.qrcode, {
+                                text: response.data.url,
+                                width: 140,
+                                height: 140,
+                                colorDark: '#000000',
+                                colorLight: '#ffffff',
                             })
-                        }
-                        this.oauthKey = response.data.oauthKey
+                        })
                     }
-                    clearTimeout(this.cd)
-                    this.cd = setTimeout(this.expire, this.cdTime)
-                    clearInterval(this.loop)
-                    this.loop = setInterval(this.updateQRCode, this.loopTime)
+                    this.oauthKey = response.data.oauthKey
                 }
-            )
+                clearTimeout(this.cd)
+                this.cd = setTimeout(this.expire, this.cdTime)
+                clearInterval(this.loop)
+                this.loop = setInterval(this.updateQRCode, this.loopTime)
+            })
         },
         updateQRCode() {
-            checkQRCode({ oauthKey: this.oauthKey }).then(
-                response => {
-                    if (response.status) {
-                        let query = qs.parse(response.data.url.substring(42))
-                        let Expires = new Date(new Date().getTime() + parseInt(query.Expires) * 1000)
-                        this.$cookies.set('DedeUserID', query.DedeUserID, Expires)
-                        this.$cookies.set('DedeUserID__ckMd5', query.DedeUserID__ckMd5, Expires)
-                        this.$cookies.set('SESSDATA', query.SESSDATA, Expires)
-                        this.$cookies.set('bili_jct', query.bili_jct, Expires)
-                        this.$router.push('/')
+            checkQRCode({ oauthKey: this.oauthKey }).then((response) => {
+                if (response.status) {
+                    let query = qs.parse(response.data.url.substring(42))
+                    let Expires = new Date(
+                        new Date().getTime() + parseInt(query.Expires) * 1000
+                    )
+                    this.$cookies.set('DedeUserID', query.DedeUserID, Expires)
+                    this.$cookies.set(
+                        'DedeUserID__ckMd5',
+                        query.DedeUserID__ckMd5,
+                        Expires
+                    )
+                    this.$cookies.set('SESSDATA', query.SESSDATA, Expires)
+                    this.$cookies.set('bili_jct', query.bili_jct, Expires)
+                    this.$router.push('/')
+                } else {
+                    switch (response.data) {
+                        case -2:
+                            this.expire()
+                            break
+                        case -5:
+                            this.scanSucess()
+                            break
+                        default:
+                            break
                     }
-                    else {
-                        switch (response.data) {
-                            case -2:
-                                this.expire()
-                                break;
-                            case -5:
-                                this.scanSucess()
-                                break;
-                            default:
-                                break;
-                        }
-                    }
-                })
+                }
+            })
         },
         showAndHideTips(event) {
-            if (this.qrcodeStatus === "normal") {
-                if (event.type === "mouseenter")
-                    this.showTips = true
-                else
-                    this.showTips = false
+            if (this.qrcodeStatus === 'normal') {
+                if (event.type === 'mouseenter') this.showTips = true
+                else this.showTips = false
             }
         },
         expire() {
             clearInterval(this.loop)
-            this.qrcodeStatus = "overdue"
+            this.qrcodeStatus = 'overdue'
         },
         scanSucess() {
-            this.qrcodeStatus = "success"
+            this.qrcodeStatus = 'success'
         },
         reloadQrcode() {
-            this.qrcodeStatus = "normal"
+            this.qrcodeStatus = 'normal'
             this.setQRCode()
-        }
+        },
     },
     mounted() {
         this.setQRCode()
@@ -128,7 +131,7 @@ export default {
     beforeDestroy() {
         clearInterval(this.loop)
         clearTimeout(this.cd)
-    }
+    },
 }
 </script>
 <style>
@@ -148,8 +151,6 @@ export default {
     height: 70px;
     left: 160px;
     top: 10px;
-    background: url(//i0.hdslb.com/bfs/static/e6f2388d454c82004905753802e9cfe709d80d08.png)
-        no-repeat;
 }
 
 .qrcode-login .qrcode-con .qrcode-box {

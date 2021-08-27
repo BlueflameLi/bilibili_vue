@@ -9,19 +9,18 @@
                         pgc
                         moreLink="//www.bilibili.com/v/popular/rank/guochan"
                     >
-                        <RankItem
+                        <PgcRankItem
                             v-for="(item,index) in guochuangRank.slice(0, 7)"
                             :key="index"
-                            :title="item.title"
-                            :index_show="item.new_ep.index_show"
-                            :ssid="item.season_id"
-                        ></RankItem>
+                            :rank="index + 1"
+                            :info="item"
+                        ></PgcRankItem>
                     </Rank>
                     <div class="special-recommend home-slide">
                         <Carousel v-if="guochuangSlideShow.length" class="carousel">
                             <CarouselItem v-for="(item,index) in guochuangSlideShow" :key="index">
                                 <a :href="item.link" target="_blank">
-                                    <img v-lazy="item.img" />
+                                    <img v-lazy="$format.trimHttp(item.img)" />
                                     <p class="title">{{ item.title }}</p>
                                 </a>
                             </CarouselItem>
@@ -38,6 +37,7 @@
                         <VideoCardCommon
                             v-for="(item,index) in guochuangData"
                             :key="index"
+                            :aid="item.aid"
                             :pic="item.pic"
                             :bvid="item.bvid"
                             :stat="item.stat"
@@ -51,10 +51,8 @@
                     <RankItem
                         v-for="(item,index) in guochuangOriginalRank.slice(0, 10)"
                         :key="index"
-                        :bvid="item.bvid"
-                        :pic="item.pic"
-                        :title="item.title"
-                        :pts="item.pts"
+                        :rank="index + 1"
+                        :info="item"
                     ></RankItem>
                 </Rank>
             </div>
@@ -69,6 +67,7 @@ import ExchangeBtn from '../ExchangeBtn'
 import VideoCardCommon from '../VideoCardCommon'
 import Rank from '../../Rank/Rank'
 import RankItem from '../../Rank/RankItem'
+import PgcRankItem from '../../Rank/PgcRankItem.vue'
 import TimeLine from '../TimeLine'
 import Carousel from '../../Carousel/Carousel'
 import CarouselItem from '../../Carousel/CarouselItem'
@@ -81,6 +80,7 @@ export default {
         VideoCardCommon,
         Rank,
         RankItem,
+        PgcRankItem,
         TimeLine,
         Carousel,
         CarouselItem

@@ -1,13 +1,13 @@
 <template>
     <div
         class="bili-banner"
-        :style="bannerData.is_split_layer ? '' : `background-image:url(${bannerData.pic || ''});`"
+        :style="bannerData.is_split_layer ? '' : `background-image:url(${$format.trimHttp(bannerData.pic) || ''});`"
     >
         <AnimatedBanner v-if="bannerData.is_split_layer" :banner="bannerData"></AnimatedBanner>
         <div class="taper-line"></div>
         <div class="logo wrap" style="margin: 0">
             <a href="//www.bilibili.com" class="head-logo">
-                <img :src="bannerData.litpic" class="logo-img" />
+                <img :src="$format.trimHttp(bannerData.litpic)" class="logo-img" />
             </a>
             <a
                 v-if="bannerData.name"

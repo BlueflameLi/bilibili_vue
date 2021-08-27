@@ -1,54 +1,75 @@
 <template>
-    <div :class="pgc ? 'pgc-rank-wrap' : 'rank-wrap'">
-        <span v-if="hasNumber" class="number" :class="{ on: rank <= 3 }">{{ rank }}</span>
-        <div v-if="!pgc && rank === 1" class="preview">
+    <div class="rank-wrap" @mouseenter="onEnter" @mouseleave="onLeave">
+        <span class="number" :class="{ on: rank <= 3 }">{{ rank }}</span>
+        <div v-if="rank === 1" class="preview">
             <div class="pic">
-                <a :href="link" target="_blank" class="link">
-                    <img v-lazy="pic + '@112w_63h_1c_100q.webp'" :alt="title" />
+                <a
+                    :href="'//www.bilibili.com/video/' + info.bvid"
+                    target="_blank"
+                    class="link"
+                >
+                    <img :src="$format.trimHttp(info.pic) + '@112w_63h_1c_100q.webp'" :alt="info.title" />
                 </a>
                 <div class="watchlater">
                     <span class="wl-tips" style="left: -21px;">稍后再看</span>
                 </div>
             </div>
             <div class="txt">
-                <a :href="link" target="_blank" class="link">
-                    <p title="title">{{ title }}</p>
+                <a
+                    :href="'//www.bilibili.com/video/' + info.bvid"
+                    target="_blank"
+                    class="link"
+                >
+                    <p :title="info.title">{{ info.title }}</p>
                 </a>
-                <span>综合得分：{{ $format.formatCount(pts) }}</span>
+                <span>综合得分：{{ formatCount(info.pts) }}</span>
             </div>
         </div>
-        <a v-else :href="link" target="_blank" class="link">
-            <p v-if="pgc" class="txt">
-                <span :title="title" class="title">{{ title }}</span>
-                <span class="update">{{ index_show }}</span>
-            </p>
-            <p v-else class="title" :title="title">{{ title }}</p>
+        <a v-else :href="'//www.bilibili.com/video/' + info.bvid" target="_blank" class="link">
+            <p class="title" :title="info.title">{{ info.title }}</p>
         </a>
+        <transition name="pvc-fade">
+            <PopoverVideoCard v-show="show" :info="info" class="pvc" />
+        </transition>
     </div>
 </template>
 <script>
+import PopoverVideoCard from './PopoverVideoCard.vue'
 export default {
     name: 'RankItem',
-    props: ['bvid', 'title', 'pic', 'pts', 'index_show', 'ssid'],
+    props: ['rank', 'info'],
+    components: {
+        PopoverVideoCard
+    },
     data() {
         return {
-            rank: 0,
-            hasNumber: true,
-            pgc: false,
+            show: false
         }
     },
-    computed: {
-        link() {
-            if (this.pgc)
-                return `https://www.bilibili.com/bangumi/play/ss${this.ssid}/`
-            else
-                return '//www.bilibili.com/video/' + this.bvid
+    methods: {
+        onEnter() {
+            this.clear()
+            this.timeout = setTimeout(() => {
+                this.show = true
+                this.clear()
+            }, 300)
+        },
+        onLeave() {
+            this.show = false
+            this.clear()
+        },
+        clear() {
+            this.timeout && clearTimeout(this.timeout)
+        },
+        formatCount(val){
+            return this.$format.formatCount(val)
         }
-    }
+    },
 }
 </script>
 <style>
 .rank-wrap {
+    position: relative;
     display: flex;
     justify-content: space-between;
     margin-bottom: 18px;
@@ -150,64 +171,19 @@ export default {
     white-space: nowrap;
 }
 
-.pgc-rank-wrap {
-    display: flex;
-    justify-content: space-between;
-    margin-bottom: 18px;
+.rank-wrap .pvc {
+    top: -138px;
+    z-index: 200;
 }
 
-.pgc-rank-wrap .number {
-    font-size: 14px;
-    color: #999;
-    width: 18px;
-    height: 18px;
-    text-align: center;
-    line-height: 18px;
-    background: #fff;
-    border-radius: 2px;
-    display: inline-block;
+.pvc-fade-enter-active,
+.pvc-fade-leave-active {
+    transition: all 0.2s ease;
 }
 
-.pgc-rank-wrap .number.on {
-    color: #fff;
-    background: #00a1d6;
-}
-
-.pgc-rank-wrap .link {
-    display: inline-block;
-}
-
-.pgc-rank-wrap .txt {
-    width: 290px;
-    line-height: 20px;
-    display: flex;
-    justify-content: space-between;
-}
-
-@media screen and (max-width: 1438px) {
-    .footer-wrap .pgc-rank .pgc-rank-wrap .txt,
-    .wrap .pgc-rank .pgc-rank-wrap .txt {
-        width: 235px;
-    }
-}
-
-.pgc-rank-wrap .txt .title {
-    width: 198px;
-    font-size: 14px;
-    font-weight: 500;
-}
-
-.pgc-rank-wrap .txt .title,
-.pgc-rank-wrap .txt .update {
-    overflow: hidden;
-    white-space: nowrap;
-    text-overflow: ellipsis;
-}
-
-.pgc-rank-wrap .txt .update {
-    font-size: 12px;
-    color: #999;
-    text-align: right;
-    min-width: 90px;
+.pvc-fade-enter,
+.pvc-fade-leave-to {
+    transform: translateY(5px);
+    opacity: 0;
 }
 </style>

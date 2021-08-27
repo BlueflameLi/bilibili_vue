@@ -9,6 +9,7 @@
                     <VideoCardCommon
                         v-for="(item,index) in dougaData"
                         :key="index"
+                        :aid="item.aid"
                         :pic="item.pic"
                         :bvid="item.bvid"
                         :stat="item.stat"
@@ -22,10 +23,8 @@
                 <RankItem
                     v-for="(item,index) in dougaRank.slice(0, 10)"
                     :key="index"
-                    :bvid="item.bvid"
-                    :pic="item.pic"
-                    :title="item.title"
-                    :pts="item.pts"
+                    :rank="index + 1"
+                    :info="item"
                 ></RankItem>
             </Rank>
         </div>

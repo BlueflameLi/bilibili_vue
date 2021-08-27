@@ -15,11 +15,13 @@ import {
     Popover
 } from 'element-ui'
 
+import Video from './plugins/Video'
+
 Vue.prototype.$axios = axios
 Vue.prototype.$format = format
 Vue.use(Popover)
 Vue.use(VueCookies)
-
+Vue.use(Video)
 Vue.use(VueLazyload, {
     preLoad: 1.0,
     attempt: 1,

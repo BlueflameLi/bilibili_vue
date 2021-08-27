@@ -31,3 +31,7 @@ export function formatCount(value) {
     } else
         return value
 }
+
+export function trimHttp(val) {
+    return val ? val.replace(/^http:/, '') : ''
+}

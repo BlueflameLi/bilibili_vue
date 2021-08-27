@@ -4,9 +4,9 @@
             v-if="storyBanner.anime && storyBanner.anime.server_type"
             target="_blank"
             class="banner-card wrap"
-            :href="storyBanner.anime.url"
+            :href="$format.trimHttp(storyBanner.anime.url)"
         >
-            <img v-lazy="storyBanner.anime.pic" />
+            <img v-lazy="$format.trimHttp(storyBanner.anime.pic)" />
             <i v-if="storyBanner.anime.is_ad" class="gg-icon"></i>
         </a>
         <div class="anime">
@@ -17,13 +17,12 @@
                     pgc
                     moreLink="//www.bilibili.com/v/popular/rank/bangumi"
                 >
-                    <RankItem
+                    <PgcRankItem
                         v-for="(item,index) in animeRank.slice(0, 10)"
                         :key="index"
-                        :title="item.title"
-                        :index_show="item.new_ep.index_show"
-                        :ssid="item.season_id"
-                    ></RankItem>
+                        :rank="index + 1"
+                        :info="item"
+                    ></PgcRankItem>
                 </Rank>
             </div>
             <div class="space-between">
@@ -35,6 +34,7 @@
                         <VideoCardCommon
                             v-for="(item,index) in animeData"
                             :key="index"
+                            :aid="item.aid"
                             :pic="item.pic"
                             :bvid="item.bvid"
                             :stat="item.stat"
@@ -49,7 +49,7 @@
                     <Carousel v-if="animeSlideShow.length" class="carousel">
                         <CarouselItem v-for="(item,index) in animeSlideShow" :key="index">
                             <a :href="item.link" target="_blank">
-                                <img v-lazy="item.img" />
+                                <img v-lazy="$format.trimHttp(item.img)" />
                                 <p class="title">{{ item.title }}</p>
                             </a>
                         </CarouselItem>
@@ -66,7 +66,7 @@ import StoreyTitle from '../StoreyTitle'
 import ExchangeBtn from '../ExchangeBtn'
 import VideoCardCommon from '../VideoCardCommon'
 import Rank from '../../Rank/Rank'
-import RankItem from '../../Rank/RankItem'
+import PgcRankItem from '../../Rank/PgcRankItem'
 import TimeLine from '../TimeLine'
 import Carousel from '../../Carousel/Carousel'
 import CarouselItem from '../../Carousel/CarouselItem'
@@ -77,7 +77,7 @@ export default {
         ExchangeBtn,
         VideoCardCommon,
         Rank,
-        RankItem,
+        PgcRankItem,
         TimeLine,
         Carousel,
         CarouselItem

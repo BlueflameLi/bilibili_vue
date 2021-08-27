@@ -7,9 +7,9 @@
 </template>
 <script>
 import { mapState, mapActions } from 'vuex'
-import TheHeader from './TheHeader/TheHeader'
-import LoginMain from './LoginMain/LoginMain'
-import TheFooter from './TheFooter'
+import TheHeader from '@/components/TheHeader/TheHeader'
+import LoginMain from '@/components/LoginMain/LoginMain'
+import TheFooter from '@/components/TheFooter'
 export default {
     name: 'Login',
     components: {

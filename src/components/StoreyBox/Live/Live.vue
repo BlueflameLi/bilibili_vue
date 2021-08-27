@@ -4,7 +4,7 @@
             v-if="storyBanner.live && storyBanner.live.server_type"
             target="_blank"
             class="banner-card wrap"
-            :href="storyBanner.live.url"
+            :href="$format.trimHttp(storyBanner.live.url)"
         >
             <img :src="storyBanner.live.pic" />
             <i v-if="storyBanner.live.is_ad" class="gg-icon"></i>
@@ -20,45 +20,7 @@
                     <ExchangeBtn link="//live.bilibili.com/" @click="setLiveMore"></ExchangeBtn>
                 </StoreyTitle>
                 <div class="zone-list-box">
-                    <div
-                        v-for="(item,index) in liveData.recommend_room_list"
-                        :key="index"
-                        class="live-card"
-                    >
-                        <a :href="'//live.bilibili.com' + item.link" target="_blank">
-                            <div class="pic">
-                                <img :src="item.cover + '@206w_116h_1c_100q.webp'" />
-                                <p class="count">
-                                    <i class="bilifont bili-icon_xinxi_renqi"></i>
-                                    {{ $format.formatCount(item.online) }}
-                                </p>
-                            </div>
-                            <div class="up">
-                                <div class="up-cover">
-                                    <img class="face" :src="item.face" />
-                                    <svg
-                                        v-if="item.verify.role"
-                                        aria-hidden="true"
-                                        class="svg-icon vip-icon"
-                                    >
-                                        <use
-                                            v-if="item.verify.role >= 3"
-                                            xlink:href="#bili-ic_gerenzhongxin_qiyerenzhenghuibiao"
-                                        />
-                                        <use
-                                            v-else
-                                            xlink:href="#bili-ic_gerenzhongxin_gerenrenzhenghuibiao"
-                                        />
-                                    </svg>
-                                </div>
-                                <div class="txt">
-                                    <p class="name">{{ item.uname }}</p>
-                                    <p class="desc" title="item.title">{{ item.title }}</p>
-                                    <p class="tag">{{ item.area_v2_name }}</p>
-                                </div>
-                            </div>
-                        </a>
-                    </div>
+                    <LiveCard v-for="(item, index) in liveData.recommend_room_list" :key="index" :info="item"></LiveCard>
                 </div>
             </div>
             <div class="live-tabs">
@@ -89,7 +51,7 @@
                     >
                         <div class="rank-face">
                             <span class="number" :class="{ 'on': index < 3 }">{{ index + 1 }}</span>
-                            <img :src="item.face" />
+                            <img :src="$format.trimHttp(item.face)" />
                             <div class="txt">
                                 <p>{{ item.uname }}</p>
                                 <p class="p2">{{ item.title }}</p>
@@ -153,20 +115,22 @@ import StoreyTitle from '../StoreyTitle'
 import ExchangeBtn from '../ExchangeBtn'
 import Carousel from '../../Carousel/Carousel'
 import CarouselItem from '../../Carousel/CarouselItem'
+import LiveCard from './LiveCard'
 export default {
     name: 'Live',
     components: {
         StoreyTitle,
         ExchangeBtn,
         Carousel,
-        CarouselItem
+        CarouselItem,
+        LiveCard,
     },
     data() {
         return {
             liveData: {},
             liveWatchingData: [],
             currentActiveTab: 2,
-            isShow: false
+            isShow: false,
         }
     },
     computed: {
@@ -176,11 +140,12 @@ export default {
             if (this.$refs.live) {
                 let offsetHeight = this.$refs.live.offsetHeight
                 let offsetTop = this.$refs.live.offsetTop
-                return offsetTop - (this.viewHeight + 100) < this.scrollTop && this.scrollTop < offsetTop + offsetHeight
-            }
-            else
-                return this.scrollTop && this.viewHeight && false
-        }
+                return (
+                    offsetTop - (this.viewHeight + 100) < this.scrollTop &&
+                    this.scrollTop < offsetTop + offsetHeight
+                )
+            } else return this.scrollTop && this.viewHeight && false
+        },
     },
     watch: {
         inView() {
@@ -189,184 +154,33 @@ export default {
                 this.setLive()
                 this.setLiveWatching()
             }
-        }
+        },
     },
     methods: {
         setLive() {
-            getLive().then(
-                response => {
-                    this.liveData = response.data
-                })
+            getLive().then((response) => {
+                this.liveData = response.data
+            })
         },
         setLiveMore() {
-            getLiveMore().then(
-                response => {
-                    this.liveData.recommend_room_list = response.data.recommend_room_list
-                }
-            )
+            getLiveMore().then((response) => {
+                this.liveData.recommend_room_list =
+                    response.data.recommend_room_list
+            })
         },
         setLiveWatching() {
             if (this.userInfo && this.userInfo.isLogin)
                 getLiveWatching({ pagesize: '6', page: '1' }).then(
-                    response => {
+                    (response) => {
                         this.liveWatchingData = response.data.list
-                    })
-        },
-    }
+                    }
+                )
+        }
+    },
 }
 </script>
 <style>
-.live-card {
-    width: 206px;
-}
 
-@media screen and (max-width: 1438px) {
-    .footer-wrap .zone-list-box .live-card,
-    .wrap .zone-list-box .live-card {
-        width: 170px;
-    }
-}
-
-@media screen and (max-width: 1654px) {
-    .footer-wrap .zone-list-box .live-card:nth-child(n + 9),
-    .footer-wrap .zone-list-box .video-card-common:nth-child(n + 9),
-    .wrap .zone-list-box .live-card:nth-child(n + 9),
-    .wrap .zone-list-box .video-card-common:nth-child(n + 9) {
-        display: none;
-    }
-}
-
-@media screen and (max-width: 1870px) {
-    .footer-wrap .space-between .zone-list-box .live-card:nth-child(n + 11),
-    .footer-wrap
-        .space-between
-        .zone-list-box
-        .video-card-common:nth-child(n + 11),
-    .wrap .space-between .zone-list-box .live-card:nth-child(n + 11),
-    .wrap .space-between .zone-list-box .video-card-common:nth-child(n + 11) {
-        display: none;
-    }
-}
-
-.live-card .pic {
-    position: relative;
-    display: block;
-    cursor: pointer;
-    margin-bottom: 10px;
-    width: 100%;
-    height: 116px;
-}
-
-@media screen and (max-width: 1438px) {
-    .footer-wrap .zone-list-box .live-card .pic,
-    .wrap .zone-list-box .live-card .pic {
-        width: 100%;
-        height: 96px;
-    }
-}
-
-.live-card .pic:before {
-    content: "";
-    position: absolute;
-    width: 100%;
-    height: 48px;
-    background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAAwCAYAAAGnNCAXAAAABGdBTUEAALGPC/xhBQAAAENJREFUCB1jYGBgYGICEpIgQgqNBRRi4MMmARYDyXKAWLwgggfOAnMJiIH0soJ0sMEJdlQWWBYshpAAK0ZwwSzS1AEAes8Ckyqvlc0AAAAASUVORK5CYII=);
-    background-size: contain;
-    background-repeat: repeat-x;
-    bottom: 0;
-    left: 0;
-    border-radius: 2px;
-}
-
-.live-card .pic img {
-    width: 100%;
-    height: 100%;
-    border-radius: 2px;
-}
-
-.live-card .pic .count {
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    color: #fff;
-    font-size: 12px;
-    padding: 6px 8px;
-    height: 28px;
-    display: flex;
-    align-items: center;
-    line-height: 16px;
-}
-
-.live-card .pic .count .bilifont {
-    margin-right: 4px;
-}
-
-/* up主信息 */
-.live-card .up {
-    display: block;
-    display: flex;
-    justify-content: space-between;
-    line-height: 16px;
-}
-
-.live-card .up .up-cover {
-    position: relative;
-}
-
-.live-card .up .up-cover .face {
-    width: 36px;
-    height: 36px;
-    display: inline-block;
-    border-radius: 50%;
-    background: #f7f7f7;
-}
-
-.live-card .up .up-cover .vip-icon {
-    position: absolute;
-    right: -4px;
-    top: 23px;
-    width: 15px;
-    height: 15px;
-}
-
-.live-card .up .txt {
-    width: 158px;
-}
-
-@media screen and (max-width: 1438px) {
-    .footer-wrap .live-card .up .txt,
-    .wrap .live-card .up .txt {
-        width: 128px;
-    }
-}
-
-.live-card .up .txt p {
-    width: 100%;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    line-height: 20px;
-}
-
-.live-card .up .txt .name {
-    font-size: 14px;
-    line-height: 20px;
-    font-weight: 500;
-}
-
-.live-card .up .txt .desc {
-    font-size: 12px;
-    color: #505050;
-    line-height: 18px;
-    margin-top: 2px;
-}
-
-.live-card .up .txt .tag {
-    font-size: 12px;
-    line-height: 16px;
-    color: #999;
-    margin-top: 8px;
-}
 
 /* 右侧切换 */
 .live-tabs {

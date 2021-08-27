@@ -25,7 +25,7 @@
                     :title="item.title"
                     class="pic"
                 >
-                    <img v-lazy="item.square_cover + '@70w_70h_1c_100q.webp'" :alt="item.title" />
+                    <img v-lazy="$format.trimHttp(item.square_cover) + '@70w_70h_1c_100q.webp'" :alt="item.title" />
                 </a>
                 <div class="txt">
                     <a

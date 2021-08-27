@@ -20,13 +20,15 @@ const api = {
     pgcRanking: 'bili/pgc/web/rank/list',
     SlideShow: 'bili/pgc/operation/api/slideshow',
     Online: 'bili/x/web-interface/online',
-    RcmdComics: 'manga/twirp/comic.v1.Comic/GetRecommendComics',
-    HomeHotComics: 'manga/twirp/comic.v1.Comic/HomeHot',
-    HomeFansComics: 'manga/twirp/comic.v1.Comic/HomeFans',
-    SpecialRcmd: 'sclrcmd',
+    RcmdComics: 'self/twirp/comic.v1.Comic/GetRecommendComics',
+    HomeHotComics: 'self/twirp/comic.v1.Comic/HomeHot',
+    HomeFansComics: 'self/twirp/comic.v1.Comic/HomeFans',
+    SpecialRcmd: 'self/sprcmd',
     Banner: 'bili/x/web-show/page/header',
     UserStatCnt: 'bili/x/web-interface/nav/stat',
-    Logout: 'passport/login/exit/v2'
+    Logout: 'passport/login/exit/v2',
+    FramePreview: 'bili/x/player/videoshot',
+    Danmu: 'bili/x/v2/dm/ajax'
 }
 
 //登录个人信息
@@ -210,5 +212,24 @@ export function getUserStatCnt() {
 export function Logout(biliCSRF) {
     return axios.post(api.Logout, {
         biliCSRF
+    })
+}
+
+// 获取视频预览帧
+export function getFramePreview(aid) {
+    return axios.get(api.FramePreview, {
+        params: {
+            aid,
+            index: 1
+        }
+    })
+}
+
+// 获取预览弹幕
+export function getDanmu(aid) {
+    return axios.get(api.Danmu, {
+        params: {
+            aid
+        }
     })
 }

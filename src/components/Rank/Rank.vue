@@ -14,38 +14,8 @@
 export default {
     name: 'Rank',
     props: {
-        pgc: {
-            type: Boolean,
-            default: false
-        },
-        hasNumber: {
-            type: Boolean,
-            default: true
-        },
-        moreLink: String
-    },
-    data() {
-        return {
-            items: []
-        }
-    },
-    methods: {
-        updateItems() {
-            this.items = this.$children.filter(child => child.$options.name === 'RankItem')
-            this.$nextTick(
-                () => {
-                    this.items.forEach((item, index) => {
-                        item.rank = index + 1
-                        item.hasNumber = this.hasNumber
-                        item.pgc = this.pgc
-                    });
-                }
-            )
-
-        },
-    },
-    mounted() {
-        this.updateItems()
+        moreLink: String,
+        pgc: Boolean,
     },
 }
 </script>

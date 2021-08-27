@@ -3,10 +3,11 @@ import VueRouter from 'vue-router'
 
 Vue.use(VueRouter);
 
-import Home from '../components/Home'
-import Login from '../components/Login'
+import Home from '@/page/Home'
+import Login from '@/page/Login'
 
 export default new VueRouter({
+    mode: 'history',
     routes: [{
             path: '/',
             component: Home

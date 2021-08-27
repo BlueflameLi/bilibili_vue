@@ -11,7 +11,7 @@
                 <div class="recommand">
                     <div class="title">精彩推荐</div>
                     <div class="bubble-col bubble-col-1">
-                        <div v-if="locsData['2836'] " class="item">
+                        <div v-if="locsData['2836']" class="item">
                             <a target="_blank" :href="locsData['2836'][0].url" class="pic">
                                 <img :src="locsData['2836'][0].pic" width="230" height="68" />
                             </a>

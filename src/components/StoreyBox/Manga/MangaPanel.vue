@@ -35,7 +35,7 @@
                 target="_blank"
                 class="manga-card"
             >
-                <img :src="item.vertical_cover + '@206w_275h_1c_90q.webp'" alt />
+                <img :src="$format.trimHttp(item.vertical_cover) + '@206w_275h_1c_90q.webp'" alt />
                 <p :title="item.title" class="manga-title">{{ item.title }}</p>
                 <p class="manga-tag">{{ currentActiveTab ? item.styles[0].name : item.styles[0] }}</p>
             </a>
@@ -62,7 +62,7 @@ export default {
     },
     computed: {
         currentActiveData() {
-            return this.currentActiveTab ? this.comicsHomeHot.slice(0, 10) : this.comicsData
+            return this.currentActiveTab ? this.comicsHomeHot.slice(0, 12) : this.comicsData
         }
     },
     methods: {

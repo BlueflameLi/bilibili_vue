@@ -38,7 +38,7 @@
                             target="_blank"
                             class="preview-link"
                         >
-                            <img :src="aitem.vertical_cover + '@112w_149h_1c_100q.webp'" alt />
+                            <img :src="$format.trimHttp(aitem.vertical_cover) + '@112w_149h_1c_100q.webp'" alt />
                             <div class="preview-desc">
                                 <p :title="aitem.title" class="title">{{ aitem.title }}</p>
                                 <p class="style">{{ aitem.styles[0].name }}</p>
