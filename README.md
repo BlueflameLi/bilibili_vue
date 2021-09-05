@@ -45,6 +45,8 @@ node app
 
 登录界面目前只做了扫码登录，因为这个接口简单点，不过也够用了
 
+由于b站很多图片是有防盗链的，虽然设置了 no-referer，但 css 里的 background-img 在部分浏览器（如 chrome）里的 referer 政策是按照图片来源的站点来的。。。所以在部分浏览器可能会有一些图片显示不出来。。。
+
 ## 项目展示
 
 [哔哩哔哩 (゜-゜)つロ 干杯~-bilibili (bilibili.blueflame.org.cn)](https://bilibili.blueflame.org.cn/)
