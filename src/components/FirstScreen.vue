@@ -838,6 +838,11 @@ export default {
     }
 }
 
+.footer-wrap .extension .video-card-common:nth-child(n + 7),
+.wrap .extension .video-card-common:nth-child(n + 7) {
+    display: none;
+}
+
 @media screen and (max-width: 1654px) {
     .footer-wrap .extension .video-card-common:nth-child(n + 5),
     .wrap .extension .video-card-common:nth-child(n + 5) {
