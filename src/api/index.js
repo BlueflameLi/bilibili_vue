@@ -2,7 +2,7 @@ import axios from '@/utils/request'
 
 const api = {
     UserInfo: 'bili/x/web-interface/nav',
-    Rcmd: 'bili/x/web-interface/index/top/rcmd',
+    Rcmd: 'bili/x/web-interface/index/top/feed/rcmd',
     QRCode: {
         Url: 'passport/qrcode/getLoginUrl',
         Info: 'passport/qrcode/getLoginInfo'
