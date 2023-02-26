@@ -1,5 +1,6 @@
 # bilibili_vue
-
+## 免责声明
+  本项目仅用于学习交流前端技术，如有侵权请联系我删除
 ## Project setup
 ```shell
 npm install
